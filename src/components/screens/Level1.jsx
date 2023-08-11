@@ -10,6 +10,7 @@ import personR from '../../assets/images/playerRight.svg';
 import personUp from '../../assets/images/playerUp.svg';
 import personRUp from '../../assets/images/playerRightUp.svg';
 import personLUp from '../../assets/images/playerLeftUp.svg';
+import clothes from '../../assets/images/level2Clothes.svg';
 
 export const Level1 = () => {
     const [calcSrc, loadedCalc] = useImage(calc);
@@ -21,6 +22,7 @@ export const Level1 = () => {
     const [personSrcRightUp, loadedPersonRightUp] = useImage(personRUp);
     const [glassesSrc, loadedGlasses] = useImage(glasses);
     const [tableSrc, loadedTable] = useImage(table);
+    const [clothesSrc, loadedClothes] = useImage(clothes);
     const blocks = [
         {
             id: 'block_1',
@@ -303,7 +305,7 @@ export const Level1 = () => {
         && loadedPersonLeft === 'loaded' && loadedPersonRight === 'loaded'
         && loadedPersonUp === 'loaded' && loadedGlasses=== 'loaded'
         && loadedPersonLeftUp === 'loaded' && loadedPersonRightUp=== 'loaded'
-        && loadedTable=== 'loaded';
+        && loadedTable=== 'loaded' && loadedClothes === 'loaded';
 
     const personsPics = {
         common: personSrc,
@@ -314,6 +316,15 @@ export const Level1 = () => {
         rightUp: personSrcRightUp,
     };
 
-    return <Game blocks={blocks} items={items} isPicsLoaded={isLoaded} personPics={personsPics}/>
+    const nextLevelItem = {
+            id: 'clothes',
+            pic: clothesSrc,
+            x: 1029,
+            y: 553,
+            width: 24,
+            height: 60,
+    };
 
+
+    return <Game blocks={blocks} items={items} isPicsLoaded={isLoaded} personPics={personsPics} nextLevelItem={nextLevelItem}/>
 }
