@@ -1,28 +1,33 @@
-import { BLOCK_WIDTH, ITEM_SIZE } from '../shared/Game/constants';
-import { Game } from '../shared/Game';
+import { useState } from 'react';
 import useImage from 'use-image';
-import calc from '../../assets/images/calc.svg'
-import glasses from '../../assets/images/glasses.svg'
-import table from '../../assets/images/table.svg'
-import person from '../../assets/images/commonPlayer.svg'
-import personL from '../../assets/images/playerLeft.svg';
-import personR from '../../assets/images/playerRight.svg';
-import personUp from '../../assets/images/playerUp.svg';
-import personRUp from '../../assets/images/playerRightUp.svg';
-import personLUp from '../../assets/images/playerLeftUp.svg';
-import clothes from '../../assets/images/level2Clothes.svg';
+import { BLOCK_WIDTH } from '../../shared/Game/constants';
+import { Game } from '../../shared/Game';
+import { DoneLevelModal } from '../../shared/DoneLevelModal';
+import { useProgress } from '../../../hooks/useProgress';
+import {
+    person, personR, personL, personUp,
+    personRUp, clothes, personLUp, calc,
+    calcDesc, table, glassesDesc, tableDesc, glasses
+} from './images';
 
 export const Level1 = () => {
-    const [calcSrc, loadedCalc] = useImage(calc);
+    const {next} = useProgress();
     const [personSrc, loadedPerson] = useImage(person);
     const [personSrcLeft, loadedPersonLeft] = useImage(personL);
     const [personSrcRight, loadedPersonRight] = useImage(personR);
     const [personSrcUp, loadedPersonUp] = useImage(personUp);
     const [personSrcLeftUp, loadedPersonLeftUp] = useImage(personLUp);
     const [personSrcRightUp, loadedPersonRightUp] = useImage(personRUp);
+    const [clothesSrc, loadedClothes] = useImage(clothes);
     const [glassesSrc, loadedGlasses] = useImage(glasses);
     const [tableSrc, loadedTable] = useImage(table);
-    const [clothesSrc, loadedClothes] = useImage(clothes);
+    const [calcSrc, loadedCalc] = useImage(calc);
+    const [calcDescSrc, loadedCalcDescSrc] = useImage(calcDesc);
+    const [glassesDescSrc, loadedGlassesDescSrc] = useImage(glassesDesc);
+    const [tableDescSrc, loadedTableDescSrc] = useImage(tableDesc);
+
+    const [isModal, setIsModal] = useState(false);
+
     const blocks = [
         {
             id: 'block_1',
@@ -180,12 +185,11 @@ export const Level1 = () => {
     ];
     const items = [
         {
-            name: 'calc',
-            nameRu: 'Цифра',
-            desc: 'сильная математическая база',
             pic: calcSrc,
-            src: calc,
-            amount: 5,
+            srcDesc: calcDescSrc,
+            descD: 5,
+            descW: 216,
+            descH: 125,
             items: [
                 {
                     id: 'calc_1',
@@ -220,11 +224,11 @@ export const Level1 = () => {
             ]
         },
         {
-            name: 'glasses',
-            nameRu: 'Очки',
-            desc: 'быстрая обучаемость',
             pic: glassesSrc,
-            src: glasses,
+            srcDesc: glassesDescSrc,
+            descD: 19,
+            descW: 155,
+            descH: 125,
             amount: 5,
             items: [
                 {
@@ -260,11 +264,11 @@ export const Level1 = () => {
             ]
         },
         {
-            name: 'table',
-            nameRu: 'Таблица',
-            desc: 'работа с базами данных в Excel',
             pic: tableSrc,
-            src: table,
+            srcDesc: tableDescSrc,
+            descD: 130,
+            descW: 186,
+            descH: 125,
             amount: 5,
             items: [
                 {
@@ -301,11 +305,13 @@ export const Level1 = () => {
         }
     ];
 
-    const isLoaded = loadedCalc === 'loaded' && loadedPerson === 'loaded'
-        && loadedPersonLeft === 'loaded' && loadedPersonRight === 'loaded'
-        && loadedPersonUp === 'loaded' && loadedGlasses=== 'loaded'
-        && loadedPersonLeftUp === 'loaded' && loadedPersonRightUp=== 'loaded'
-        && loadedTable=== 'loaded' && loadedClothes === 'loaded';
+    const isLoaded = loadedCalc === 'loaded' && loadedCalcDescSrc === 'loaded'
+        && loadedGlassesDescSrc === 'loaded' && loadedTableDescSrc === 'loaded'
+        && loadedGlasses === 'loaded' && loadedTable === 'loaded'
+        && loadedPerson === 'loaded' && loadedPersonLeft === 'loaded'
+        && loadedPersonRight === 'loaded' && loadedPersonUp === 'loaded'
+        && loadedPersonLeftUp === 'loaded' && loadedPersonRightUp === 'loaded'
+        && loadedClothes === 'loaded';
 
     const personsPics = {
         common: personSrc,
@@ -325,6 +331,24 @@ export const Level1 = () => {
             height: 60,
     };
 
+    const handleDone = () => {
+        setIsModal(true);
+    }
 
-    return <Game blocks={blocks} items={items} isPicsLoaded={isLoaded} personPics={personsPics} nextLevelItem={nextLevelItem}/>
+    const handleNext = () => {
+        next();
+    }
+
+    return <>
+        <Game
+            blocks={blocks}
+            items={items}
+            isPicsLoaded={isLoaded}
+            personPics={personsPics}
+            nextLevelItem={nextLevelItem}
+            onDone={handleDone}
+            onNext={handleNext}
+        />
+        {isModal && <DoneLevelModal onClose={() => setIsModal(false)} />}
+    </>
 }

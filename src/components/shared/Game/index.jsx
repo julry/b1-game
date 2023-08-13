@@ -64,7 +64,7 @@ const ButtonUp = styled(Button)`
 
 const gravity = 0.5;
 
-export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) => {
+export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, onDone, onNext}) => {
     const [blockSrc, loaded] = useImage(blockImg);
     const [roadSrc, roadLoaded] = useImage(roadImg);
     const [handSrc, handLoaded] = useImage(handImg);
@@ -72,6 +72,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
     const [bgSrc, bgLoaded] = useImage(bg);
     const $canvas = useRef();
     const $ctx = useRef();
+    const $wrapper = useRef();
     const $person = useRef({
         position: {
             x: INITIAL_PERSON_X,
@@ -93,8 +94,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
         rightUp: false,
     });
 
+    const $clicked = useRef({x: 0, y: 0});
+
     const $logo = useRef({
         x: 1062,
+        initialX: 1062,
         y: 542,
         width: 50,
         height: 50
@@ -105,10 +109,63 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
     const $secondItems = useRef(items[1].items);
     const $thirdItems = useRef(items[2].items);
     const $nextLevelItem = useRef();
+    const $icons = useRef([]);
     const $bg = useRef();
 
     const $isDone = useRef(false);
     const $isFinishing = useRef(false);
+
+    const setIcons = () => {
+        const canvasWidth = $canvas.current?.width;
+        const iconY = 27;
+        let iconXDelta = (canvasWidth - 38) / 3 - ITEM_SIZE - 70;
+        iconXDelta = iconXDelta > 5 ? iconXDelta : 5;
+
+        $icons.current = [
+            {
+                x: 19,
+                y: iconY,
+                width: ITEM_SIZE,
+                height: ITEM_SIZE,
+                src: items[0].pic,
+                deltaText: 47,
+                textY: iconY + 24,
+                textRef: $firstItems,
+                srcDesc: items[0].srcDesc,
+                descX: 19 - items[0].descD,
+                descW: items[0].descW,
+                descH: items[0].descH,
+            },
+            {
+                x: (canvasWidth - 38) / 3 + iconXDelta + 19,
+                y: iconY,
+                width: ITEM_SIZE,
+                height: ITEM_SIZE,
+                src: items[1].pic,
+                deltaText: 47,
+                textY: iconY + 24,
+                textRef: $secondItems,
+                srcDesc: items[1].srcDesc,
+                descX: (canvasWidth - 38) / 3 + iconXDelta + 19 - items[1].descD,
+                descW: items[1].descW,
+                descH: items[1].descH,
+            },
+            {
+                x: 2 * (canvasWidth - 38) / 3 + iconXDelta + 19,
+                y: iconY,
+                width: ITEM_SIZE,
+                height: ITEM_SIZE,
+                src: items[2].pic,
+                deltaText: 47,
+                textY: iconY + 24,
+                textRef: $thirdItems,
+                srcDesc: items[2].srcDesc,
+                descX: 2 * (canvasWidth - 38) / 3 + iconXDelta + 19 - items[2].descD,
+                descW: items[2].descW,
+                descH: items[2].descH,
+            },
+        ];
+    };
 
     useEffect(() => {
         const isEverythingLoaded = loaded === 'loaded' && handLoaded === 'loaded'
@@ -116,22 +173,38 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
             && bgLoaded === 'loaded';
         if ($canvas.current && isEverythingLoaded) {
             const canvas = $canvas.current;
-            const dpr = window.devicePixelRatio;
             $ctx.current = canvas.getContext('2d');
-
-            $canvas.current.width = window.innerWidth * dpr;
-            const height = window.innerHeight * dpr;
+            $canvas.current.width = window.innerWidth;
+            const height = $wrapper.current.clientHeight;
+            $ctx.current.imageSmoothingEnabled = false;
             $canvas.current.height = height;
             $canvas.current.style.width = window.innerWidth;
             $canvas.current.style.height = window.innerHeight;
             $person.current.position.y = height - $person.current.height - INITIAL_PERSON_Y;
             $nextLevelItem.current = nextLevelItem;
-            $bg.current = {
-                x: -284,
-                y: window.innerHeight,
-                width: 3 * window.innerWidth + 284,
-                height: 565
-            };
+
+            $bg.current = [
+                {
+                    x: -284,
+                    initialX: -284,
+                    y: height - 120,
+                    width: 665,
+                    height: 563,
+                },
+                {
+                    x: 373,
+                    y: height - 120,
+                    width: 665,
+                    height: 563
+                },
+                {
+                    x: 1028,
+                    y: height - 120,
+                    width: 665,
+                    height: 563
+                },
+            ];
+            setIcons();
             animate();
         }
     }, [loaded, handLoaded, roadLoaded, isPicsLoaded, logoLoaded, bgLoaded]);
@@ -206,11 +279,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
 
     const update = () => {
         draw();
-        const bottomBorder = $canvas.current.height - INITIAL_PERSON_Y;
+        const bottomBorder = $canvas?.current?.height - INITIAL_PERSON_Y;
         const {position, velocity, height, initialX} = $person.current;
         const positionY = position?.y + velocity?.y;
         const velocityY = (positionY + height + velocity?.y <= bottomBorder) ? velocity?.y + gravity : 0;
-        const canvasWidth = $canvas.current.width / window.devicePixelRatio;
+        const canvasWidth = $canvas?.current?.width;
         const isLeftEdge = position?.x + velocity?.x <= 0;
         const isRightEdge = position?.x + velocity?.x >= canvasWidth - 2 * PERSON_WIDTH;
         const positionX =  isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
@@ -245,39 +318,47 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
         $person.current.position.x = positionX;
     };
 
-    const getIsShouldMoveRight = () => {
-        return $keysPressed.current.left && $blocks.current[0].x < $blocks.current[0].initialX
-        && ($person.current.position.x < $canvas.current.width / (2 * window.devicePixelRatio));
+    const drawIcons = () => {
+        $ctx.current.fillStyle = "black";
+        for (let i = 0; i < $icons.current.length; i++) {
+            const icon = $icons.current[i];
+            $ctx.current?.drawImage(icon.src, icon.x, icon.y, icon.width, icon.height);
+            $ctx.current.font = "bold 13px PixeloidSans";
+            $ctx.current?.fillText(`X`, icon.x + icon.deltaText - 5, icon.textY - 3);
+            $ctx.current.font = "bold 17px PixeloidSans";
+            $ctx.current?.fillText(icon.textRef.current.length, icon.x + icon.deltaText + 10, icon.textY);
+            if (
+                $clicked.current.x >= icon.x && $clicked.current.x <= icon.x + icon.width
+                && $clicked.current.y >= icon.y && $clicked.current.y <= icon.y + icon.height
+            ) {
+                $ctx.current?.drawImage(icon.srcDesc, icon.descX, icon.y + icon.height + 5, icon.descW, icon.descH);
+            }
+        }
     }
 
-    const getIsShouldMoveLeft = () => ($keysPressed.current.right || $isFinishing.current) &&
-        $blocks.current[$blocks.current.length - 1].x >= $canvas.current.width / window.devicePixelRatio - BLOCK_WIDTH
-        && ($person.current.position.x > $canvas.current.width / (2 * window.devicePixelRatio));
+    const getIsShouldMoveRight = () => {
+        return $keysPressed.current.left && $bg.current[0].x < $bg.current[0].initialX
+        && ($person.current.position.x < $canvas.current.width / 2);
+    }
+
+    const getIsShouldMoveLeft = () => ($keysPressed.current.right || $isFinishing.current)
+        && $logo.current.x + $logo.current.width > $canvas.current.width
+        && ($person.current.position.x > $canvas.current.width / 2);
 
     const animate = () => {
         if (!$firstItems.current.length && !$secondItems.current.length && !$thirdItems.current.length && !$isDone.current) {
             $isDone.current = true;
+            onDone();
         }
         requestAnimationFrame(animate);
         $ctx.current?.clearRect?.(0, 0, $canvas.current?.width, $canvas.current?.height);
 
-        update();
-        $ctx.current.drawImage(roadSrc, 0, $canvas.current?.height - INITIAL_PERSON_Y, $canvas.current?.width, INITIAL_PERSON_Y);
-        $ctx.current?.fillRect?.(200, 0,  $canvas.current?.height, 100);
-        const {position, height, velocity, width} = $person.current;
-        const canvasWidth = $canvas.current.width / window.devicePixelRatio;
-        const iconY = $canvas.current.height - window.innerHeight + 27;
-        let iconXDelta = (canvasWidth - 38) / 3 - ITEM_SIZE - 70;
-        iconXDelta = iconXDelta > 5 ? iconXDelta : 5;
-        $ctx.current.font = "bold 24px serif";
-        $ctx.current.fillStyle = "black";
+        drawIcons();
 
-        $ctx.current.drawImage(items[0].pic, 19, iconY, ITEM_SIZE, ITEM_SIZE);
-        $ctx.current.drawImage(items[1].pic, (canvasWidth - 38) / 3 + iconXDelta + 19, iconY, ITEM_SIZE, ITEM_SIZE);
-        $ctx.current.drawImage(items[2].pic, 2 * (canvasWidth - 38) / 3 + iconXDelta + 19, iconY, ITEM_SIZE, ITEM_SIZE);
-        $ctx.current.fillText(`x ${$firstItems.current.length}`, 66, iconY + 24);
-        $ctx.current.fillText(`x ${$secondItems.current.length}`, (canvasWidth - 38) / 3 + iconXDelta + 66, iconY + 24);
-        $ctx.current.fillText(`x ${$thirdItems.current.length}`, 2 * (canvasWidth - 38) / 3 + iconXDelta + 66, iconY + 24);
+        update();
+        $ctx.current?.drawImage(roadSrc, 0, $canvas.current?.height - INITIAL_PERSON_Y, $canvas.current?.width, INITIAL_PERSON_Y);
+        const {position, height, velocity, width} = $person.current;
+
 
         if ($keysPressed.current.right) {
             $person.current.velocity.x += 1;
@@ -298,8 +379,12 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
             const block = $blocks.current[i];
             const blockY = $canvas.current.height - block.y;
 
-            $blocks.current[i].x = drawPlatform(block);
-
+            drawPlatform(block);
+            if (getIsShouldMoveLeft()) {
+                $blocks.current[i].x -= 8;
+            } else if (getIsShouldMoveRight()) {
+                $blocks.current[i].x += 8;
+            }
             if (
                 position.y + height <= blockY && position.y + height + velocity.y >= blockY
                 && position.x + width >= block.x && position.x <= block.x + BLOCK_WIDTH
@@ -324,6 +409,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
                     $blocks.current[i].y = $blocks.current[$blocks.current.length - 1].y;
                     if ($person.current.position.x < nextLevelItem.x) {
                         $person.current.velocity.x += 2;
+                    } else {
+                        onNext();
                     }
                 }
             }
@@ -343,8 +430,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
         if (!!$thirdItems.current.length) {
             $thirdItems.current = drawAndCheckItems($thirdItems.current, position, velocity, height, width, items[2].pic);
         }
-
-        $bg.current.x = drawItems($bg.current, bgSrc);
+        {
+            for (let i = 0; i < $bg.current.length; i++) {
+                $bg.current[i].x = drawItems($bg.current[i], bgSrc);
+            }
+        }
     };
 
     const handleLeft = () => {
@@ -373,9 +463,16 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem}) =
         $keysPressed.current.left = false;
     };
 
+    const handleCanvasClick = (event) => {
+        $clicked.current = {
+            x: event.clientX,
+            y: $canvas.current.height - window.innerHeight + event.clientY,
+        }
+    }
+
     return (
-        <Wrapper>
-            <canvas ref={$canvas} onClick={(event) => console.log(event)}/>
+        <Wrapper ref={$wrapper}>
+            <canvas ref={$canvas} onClick={handleCanvasClick}/>
             <ButtonsBlock>
                 <ButtonLeft onClick={handleLeft} />
                 <ButtonRight onClick={handleRight} />
