@@ -1,6 +1,6 @@
+import styled from 'styled-components';
 import { BoldText, Text, TextSmall } from './texts';
 import { Modal } from './Modal';
-import styled from 'styled-components';
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -37,29 +37,34 @@ const XStyled = styled(BoldText)`
   font-size: 12px;
 `;
 
-export const InfoModal = ({ className, onClick, title, desc, items, children}) => (
-    <Modal className={className} icon={!!onClick} onClick={onClick} btnType={'primary'} >
+const Items = styled.div`
+  margin-top: min(10px, 2.6vw);
+`;
+
+export const InfoModal = ({className, onClick, title, desc, items, children}) => (
+    <Modal className={className} icon={!!onClick} onClick={onClick} btnType={'primary'}>
         <BoldText>{title}</BoldText>
         <br/>
         <Text>
             {desc}
         </Text>
-        <br/>
-        {items.map(item => (
-            <ItemWrapper key={item.name}>
-                <ItemIcon $src={item.src}/>
-                <ItemDesc>
-                    <TextSmall>
-                        <b>{item.nameRu}{'\n'}</b>
-                        {item.desc}
-                    </TextSmall>
-                </ItemDesc>
-                <CountWrapper>
-                    <XStyled> X </XStyled>
-                    <Count>{item.amount}</Count>
-                </CountWrapper>
-            </ItemWrapper>
-        ))}
+        <Items>
+            {items.map(item => (
+                <ItemWrapper key={item.name}>
+                    <ItemIcon $src={item.src}/>
+                    <ItemDesc>
+                        <TextSmall>
+                            <b>{item.nameRu}{'\n'}</b>
+                            {item.desc}
+                        </TextSmall>
+                    </ItemDesc>
+                    <CountWrapper>
+                        <XStyled> X </XStyled>
+                        <Count>{item.amount}</Count>
+                    </CountWrapper>
+                </ItemWrapper>
+            ))}
+        </Items>
         {children}
     </Modal>
-)
+);

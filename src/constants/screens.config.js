@@ -5,6 +5,7 @@ import { Screen4 } from '../components/screens/Screen4';
 import { Screen5 } from '../components/screens/Screen5';
 import { Screen6 } from '../components/screens/Screen6';
 import { Screen7 } from '../components/screens/Screen7';
+import { Screen8 } from '../components/screens/Screen8';
 
 export const screens = [
     {
@@ -34,5 +35,9 @@ export const screens = [
     {
         id: 6,
         component: Screen7
+    },
+    {
+        id: 7,
+        component: Screen8
     }
 ];

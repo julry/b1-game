@@ -314,10 +314,11 @@ export const Level3 = () => {
     const nextLevelItem = {
         id: 'clothes',
         pic: clothesSrc,
-        x: 1029,
-        y: 550,
-        width: 24,
-        height: 57,
+        x: 976,
+        initialX: 976,
+        y: 561,
+        width: 82,
+        height: 69,
     };
 
     const handleDone = () => {

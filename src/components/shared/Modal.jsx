@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { Button } from './Button';
-import test from '../../assets/images/test.svg';
-import test1 from '../../assets/images/test1.svg';
+import modalBorder from '../../assets/images/modalBorder.svg';
+import modalBorderSecondary from '../../assets/images/modalBorderSecondary.svg';
+import rect from '../../assets/images/rect.svg';
+import rectSec from '../../assets/images/rectSecondary.svg';
 import icon from '../../assets/images/doneIcon.svg';
+import { FlexWrapper } from './FlexWrapper';
 
 const ModalWrapper = styled.div`
   position: fixed;
@@ -14,7 +17,7 @@ const ModalWrapper = styled.div`
   padding: 0 min(6.6vw, 25px);
 `;
 
-const ModalStyled = styled.div`
+const ModalStyled = styled(FlexWrapper)`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -23,7 +26,6 @@ const ModalStyled = styled.div`
   min-height: 324px;
   width: 320px;
   text-align: center;
-  border: 1px solid green;
   padding: 50px 30px;
   white-space: pre-line;
   
@@ -37,7 +39,7 @@ const ModalStyled = styled.div`
     inset: 0;
     z-index: -2;
     pointer-events: none;
-    background: url(${test}) 0 0;
+    background: url(${({$type}) => $type === 'primary' ? modalBorder : modalBorderSecondary}) 0 0;
     background-size: auto;
   }
   &::after {
@@ -64,7 +66,7 @@ const StyledBlock = styled.div`
   width: 16px;
   height: 16px;
   ${({style}) => style}
-  background: url(${test1}) no-repeat center center;
+  background: url(${({$type}) => $type === 'primary' ? rect : rectSec}) no-repeat center center;
 `;
 
 const Icon = styled.div`
@@ -73,10 +75,10 @@ const Icon = styled.div`
   background: url(${icon}) no-repeat 0 0 /cover;
 `;
 
-export const Modal = ({className, children, icon, btnText, btnType, onClick}) => {
+export const Modal = ({className, children, icon, btnText, btnType, onClick, type = 'primary'}) => {
     return (
         <ModalWrapper>
-            <ModalStyled className={className}>
+            <ModalStyled className={className} $type={type}>
                 {children}
                 {(!!icon || !!btnText) && <ButtonStyled
                     $bg={icon}
@@ -85,14 +87,14 @@ export const Modal = ({className, children, icon, btnText, btnType, onClick}) =>
                 >
                     {icon ? <Icon/> : btnText}
                 </ButtonStyled>}
-                <StyledBlock style={{top: '16px', left: '32px'}}/>
-                <StyledBlock style={{top: '32px', left: '16px'}}/>
-                <StyledBlock style={{top: '16px', right: '30px'}}/>
-                <StyledBlock style={{top: '32px', right: '14px'}}/>
-                <StyledBlock style={{bottom: '14px', left: '32px'}}/>
-                <StyledBlock style={{bottom: '30px', left: '16px'}}/>
-                <StyledBlock style={{bottom: '14px', right: '30px'}}/>
-                <StyledBlock style={{bottom: '30px', right: '14px'}}/>
+                <StyledBlock style={{top: '16px', left: '32px'}} $type={type}/>
+                <StyledBlock style={{top: '32px', left: '16px'}} $type={type}/>
+                <StyledBlock style={{top: '16px', right: '30px'}} $type={type}/>
+                <StyledBlock style={{top: '32px', right: '14px'}} $type={type}/>
+                <StyledBlock style={{bottom: '14px', left: '32px'}} $type={type}/>
+                <StyledBlock style={{bottom: '30px', left: '16px'}} $type={type}/>
+                <StyledBlock style={{bottom: '14px', right: '30px'}} $type={type}/>
+                <StyledBlock style={{bottom: '30px', right: '14px'}} $type={type}/>
             </ModalStyled>
         </ModalWrapper>
     )

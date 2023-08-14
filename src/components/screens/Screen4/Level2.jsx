@@ -303,6 +303,7 @@ export const Level2 = () => {
             id: 'clothes',
             pic: clothesSrc,
             x: 1029,
+            initialX: 1029,
             y: 550,
             width: 24,
             height: 57,

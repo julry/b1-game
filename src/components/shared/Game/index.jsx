@@ -11,9 +11,12 @@ import logo from '../../../assets/images/logo.svg';
 import bg from '../../../assets/images/background.svg';
 import {
     BLOCK_HEIGHT,
-    BLOCK_WIDTH, HAND_HEIGHT,
+    BLOCK_WIDTH,
+    HAND_HEIGHT,
     INITIAL_PERSON_X,
-    INITIAL_PERSON_Y, ITEM_SIZE, MOVE_SIDE,
+    INITIAL_PERSON_Y,
+    ITEM_SIZE,
+    MOVE_SIDE,
     PERSON_HEIGHT,
     PERSON_WIDTH
 } from './constants';
@@ -116,51 +119,58 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const $isFinishing = useRef(false);
 
     const setIcons = () => {
-        const canvasWidth = $canvas.current?.width;
         const iconY = 27;
-        let iconXDelta = (canvasWidth - 38) / 3 - ITEM_SIZE - 70;
-        iconXDelta = iconXDelta > 5 ? iconXDelta : 5;
+        const marginL = $canvas.current?.width > 320 ? 19 : 5;
+        const margin = $canvas.current?.width * marginL / 375;
+        const width = 87;
+        const block = ($canvas.current?.width - margin * 2) / 3;
+        const distance = block - width;
+        const deltaText = $canvas.current?.width > 300 ? ITEM_SIZE + 10 : ITEM_SIZE + 7;
+        const deltaAmount = $canvas.current?.width > 300 ? width - 15 : width - 20;
 
         $icons.current = [
             {
-                x: 19,
+                x: margin,
                 y: iconY,
                 width: ITEM_SIZE,
                 height: ITEM_SIZE,
                 src: items[0].pic,
-                deltaText: 47,
-                textY: iconY + 24,
+                deltaText,
+                deltaAmount,
+                textY: iconY + ITEM_SIZE / 2 + 8,
                 textRef: $firstItems,
                 srcDesc: items[0].srcDesc,
-                descX: 19 - items[0].descD,
+                descX: margin - items[0].descD,
                 descW: items[0].descW,
                 descH: items[0].descH,
             },
             {
-                x: (canvasWidth - 38) / 3 + iconXDelta + 19,
+                x: margin + block + 0.5 * distance,
                 y: iconY,
                 width: ITEM_SIZE,
                 height: ITEM_SIZE,
                 src: items[1].pic,
-                deltaText: 47,
-                textY: iconY + 24,
+                deltaText,
+                deltaAmount,
+                textY: iconY + ITEM_SIZE / 2 + 8,
                 textRef: $secondItems,
                 srcDesc: items[1].srcDesc,
-                descX: (canvasWidth - 38) / 3 + iconXDelta + 19 - items[1].descD,
+                descX: margin + block + 0.5 * distance - items[1].descD,
                 descW: items[1].descW,
                 descH: items[1].descH,
             },
             {
-                x: 2 * (canvasWidth - 38) / 3 + iconXDelta + 19,
+                x: margin + 2 * block + distance,
                 y: iconY,
                 width: ITEM_SIZE,
                 height: ITEM_SIZE,
                 src: items[2].pic,
-                deltaText: 47,
-                textY: iconY + 24,
+                deltaText,
+                deltaAmount,
+                textY: iconY + ITEM_SIZE / 2 + 8,
                 textRef: $thirdItems,
                 srcDesc: items[2].srcDesc,
-                descX: 2 * (canvasWidth - 38) / 3 + iconXDelta + 19 - items[2].descD,
+                descX: margin + 2 * block + 0.5 * distance - items[2].descD,
                 descW: items[2].descW,
                 descH: items[2].descH,
             },
@@ -174,8 +184,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         if ($canvas.current && isEverythingLoaded) {
             const canvas = $canvas.current;
             $ctx.current = canvas?.getContext('2d');
-            const width = $wrapper.current?.clientWidth;
-            $canvas.current.width = width;
+            $canvas.current.width = $wrapper.current?.clientWidth;
             const height = $wrapper.current?.clientHeight;
             $ctx.current.imageSmoothingEnabled = false;
             $canvas.current.height = height;
@@ -319,8 +328,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                     $person.current.velocity.y = -3;
                 } else {
                     $blocks.current[i].y = $blocks.current[$blocks.current.length - 1].y;
-                    if ($person.current.position.x < nextLevelItem.x) {
-                        $person.current.velocity.x += 2;
+                    if ($person.current.position.x < $canvas?.current?.width - 1.5 * BLOCK_WIDTH) {
+                        $person.current.position.x += 2;
                     } else {
                         onNext();
                     }
@@ -342,7 +351,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const positionX =  isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
                 : position?.x + velocity?.x;
 
-        const distance = (getIsShouldMoveLeft() || getIsShouldMoveRight()) ? 65 : 75;
+        const distance = (getIsShouldMoveLeft() || getIsShouldMoveRight()) ? 40 : 75;
 
         if (
             $keysPressed.current.right &&
@@ -377,9 +386,9 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             const icon = $icons.current[i];
             $ctx.current?.drawImage(icon.src, icon.x, icon.y, icon.width, icon.height);
             $ctx.current.font = "bold 13px PixeloidSans";
-            $ctx.current?.fillText(`X`, icon.x + icon.deltaText - 5, icon.textY - 3);
-            $ctx.current.font = "bold 17px PixeloidSans";
-            $ctx.current?.fillText(icon.textRef.current.length, icon.x + icon.deltaText + 10, icon.textY);
+            $ctx.current?.fillText(`X`, icon.x + icon.deltaText, icon.textY - 3);
+            $ctx.current.font = "bold 22px PixeloidSans";
+            $ctx.current?.fillText(icon.textRef.current.length, icon.x + icon.deltaAmount, icon.textY);
             if (
                 $clicked.current.x >= icon.x && $clicked.current.x <= icon.x + icon.width
                 && $clicked.current.y >= icon.y && $clicked.current.y <= icon.y + icon.height
@@ -436,12 +445,12 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
         if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
             $person.current.velocity.x += 1;
-            if ($person.current.velocity.x > 11 || (getIsShouldMoveLeft() && $person.current.velocity.x > 5)) {
+            if ($person.current.velocity.x > 11) {
                 $keysPressed.current.right = false;
             }
         } else if ($keysPressed.current.left && $person.current.position.x >= 0) {
             $person.current.velocity.x -= 1;
-            if ($person.current.velocity.x < -11 || (getIsShouldMoveRight() && $person.current.velocity.x < -5)) {
+            if ($person.current.velocity.x < -11) {
                 $keysPressed.current.left = false;
             }
         } else {

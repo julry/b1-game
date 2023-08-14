@@ -14,6 +14,14 @@ const Wrapper = styled.div`
   ${({$isModal}) => $isModal ? 'filter: blur(3.5px); transform: scale(1.05)' : ''};
 `;
 
+const TextStyled = styled(Text)`
+    margin-top: min(10px, 2.6vw);
+`;
+
+const ButtonStyled = styled(Button)`
+    margin-top: min(10px, 2.6vw);
+`;
+
 export const Screen4 = () => {
     const [isModal, setIsModal] = useState(true);
 
@@ -58,16 +66,16 @@ export const Screen4 = () => {
                     }
                     items={items}
                 >
-                    <Text>
+                    <TextStyled>
                         А если хочешь к нам в команду Б1 уже сейчас — откликайся!
-                    </Text>
-                    <Button type={'primaryOutlined'}>На стажировку</Button>
-                    <Button
+                    </TextStyled>
+                    <ButtonStyled type={'primaryOutlined'}>На стажировку</ButtonStyled>
+                    <ButtonStyled
                         type={'primary'}
                         onClick={handleStart}
                     >
                         Продолжить расти
-                    </Button>
+                    </ButtonStyled>
                 </InfoModal>
             )}
         </>

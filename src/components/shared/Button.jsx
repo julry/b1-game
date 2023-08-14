@@ -9,7 +9,7 @@ const TYPE_TO_COLOR = {
 
 const TYPE_TO_BG = {
     primary: '#4AA851',
-    secondary: '#875310',
+    secondary: '#F09217',
     primaryOutlined: '#FFFFFF',
     secondaryOutlined: '#FFFFFF',
 };
@@ -39,9 +39,18 @@ const ButtonStyled = styled.button`
   border: 4px solid;
   border-image-slice: 1;
   border-image-source:${({$type}) => TYPE_TO_GRADIENT[$type]};
-  
+  transition: background-color 0.3s;
   &:hover {
     background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};
+  }
+
+  &:active {
+    background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};
+  }
+  
+  @media screen and (max-width: 320px) {
+    height: 30px;
+    font-size: 14px;
   }
 `;
 
