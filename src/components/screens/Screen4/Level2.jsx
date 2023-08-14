@@ -325,6 +325,7 @@ export const Level2 = () => {
             nextLevelItem={nextLevelItem}
             onDone={handleDone}
             onNext={handleNext}
+            gameWidth={1022 + BLOCK_WIDTH}
         />
         {isModal && <DoneLevelModal onClose={() => setIsModal(false)} />}
     </>

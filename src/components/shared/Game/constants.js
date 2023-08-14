@@ -4,5 +4,6 @@ export const HAND_HEIGHT = 20;
 export const PERSON_HEIGHT = 70;
 export const PERSON_WIDTH = 24;
 export const INITIAL_PERSON_Y = 157;
-export const INITIAL_PERSON_X = 111;
+export const INITIAL_PERSON_X = 150;
 export const ITEM_SIZE = 38;
+export const MOVE_SIDE = 8;

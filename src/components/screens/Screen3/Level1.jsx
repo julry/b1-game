@@ -183,6 +183,7 @@ export const Level1 = () => {
             y: 493,
         },
     ];
+
     const items = [
         {
             pic: calcSrc,
@@ -251,14 +252,14 @@ export const Level1 = () => {
                 },
                 {
                     id: 'glass_4',
-                    x: 675,
-                    initialX: 675,
+                    x: 680,
+                    initialX: 680,
                     y: 531,
                 },
                 {
                     id: 'glass_5',
-                    x: 1050,
-                    initialX: 1050,
+                    x: 1055,
+                    initialX: 1055,
                     y: 296,
                 },
             ]
@@ -326,6 +327,7 @@ export const Level1 = () => {
             id: 'clothes',
             pic: clothesSrc,
             x: 1029,
+            initialX: 1029,
             y: 553,
             width: 24,
             height: 60,
@@ -348,6 +350,7 @@ export const Level1 = () => {
             nextLevelItem={nextLevelItem}
             onDone={handleDone}
             onNext={handleNext}
+            gameWidth={1022 + BLOCK_WIDTH}
         />
         {isModal && <DoneLevelModal onClose={() => setIsModal(false)} />}
     </>

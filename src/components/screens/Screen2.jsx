@@ -1,11 +1,18 @@
 import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
+import { useProgress } from '../../hooks/useProgress';
 
 export const Screen2 = () => {
+    const { next } = useProgress();
+
+    const handleNext = () => {
+        next();
+    };
+
     return (
         <BackgroundScreen isLogo>
-            <Modal btnText={'Принято!'} btnType={'primary'}>
+            <Modal btnText={'Принято!'} btnType={'primary'} onClick={handleNext}>
                 <BoldText>Что делать?</BoldText>
                 <br/>
                 <Text>

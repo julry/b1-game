@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 const Background = styled.div`
   position: absolute;
   inset: 0;
-  background: url(${bg}) no-repeat 0 0 /contain;
+  background: url(${bg}) 0 0 /contain;
   z-index: 1;
 `;
 

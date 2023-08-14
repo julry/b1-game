@@ -61,7 +61,7 @@ export const Screen4 = () => {
                     <Text>
                         А если хочешь к нам в команду Б1 уже сейчас — откликайся!
                     </Text>
-                    <Button type={'secondary'}>На стажировку</Button>
+                    <Button type={'primaryOutlined'}>На стажировку</Button>
                     <Button
                         type={'primary'}
                         onClick={handleStart}

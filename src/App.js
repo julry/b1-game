@@ -7,6 +7,8 @@ import { FlexWrapper } from './components/shared/FlexWrapper';
 const Wrapper = styled(FlexWrapper)`
   height: ${({height}) => height}px;
   overflow-x: hidden;
+  align-items: center;
+  background: #E8F1F8;
 `;
 
 const ComponentWrapper = styled(FlexWrapper)`
@@ -17,8 +19,8 @@ const ComponentWrapper = styled(FlexWrapper)`
   overflow: hidden;
 
   @media screen and (min-width: 640px) {
-    border: 1px solid white;
-    border-radius: var(--baseBorderRadius);
+    border: 3px solid white;
+    border-radius: 20px;
   }
 `;
 
