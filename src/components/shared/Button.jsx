@@ -28,7 +28,15 @@ const TYPE_TO_GRADIENT = {
     secondaryOutlined: 'linear-gradient(180deg, #FFB14B 0%, #FFB14B 50%, #875310 51%, #875310 100%)',
 }
 
+const TYPE_TO_MIN_WIDTH = {
+    primary: '130px',
+    secondary: '104px',
+    primaryOutlined: '130px',
+    secondaryOutlined: '104px',
+};
+
 const ButtonStyled = styled.button`
+  cursor: pointer;
   color: ${({$type}) => TYPE_TO_COLOR[$type]};
   background: ${({$type}) => TYPE_TO_BG[$type]};
   height: 38px;
@@ -37,12 +45,13 @@ const ButtonStyled = styled.button`
   padding: 0 13px;
   outline: none;
   border: 4px solid;
+  min-width: ${({$type}) => TYPE_TO_MIN_WIDTH[$type]};
   border-image-slice: 1;
   border-image-source:${({$type}) => TYPE_TO_GRADIENT[$type]};
   transition: background-color 0.3s;
-  &:hover {
-    background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};
-  }
+  // &:hover {
+  //   background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};
+  // }
 
   &:active {
     background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};

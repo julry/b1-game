@@ -7,10 +7,15 @@ import { useState } from 'react';
 import { useProgress } from '../../hooks/useProgress';
 
 const ButtonStyled = styled(Button)`
-  margin: 16px 0 20px;
+  margin: 16px auto 20px;
+  max-width: 194px;
   
   &:disabled {
     opacity: 0.6;
+  }
+  
+  &:nth-of-type(2) {
+    margin-top: 20px;
   }
 `;
 
@@ -41,6 +46,7 @@ const InputStyled = styled.input`
   font-size: 14px;
   transition: border 300ms;
   color: #444042;
+  height: 32px;
   
   &::placeholder {
     color: #B1B1B1;
@@ -99,6 +105,14 @@ const Link = styled.a`
     color: inherit;
 `;
 
+const ModalStyled = styled(Modal)`
+  min-height: 520px;
+
+  @media screen and (max-width: 320px) {
+    min-height: 471px;
+  }
+`;
+
 export const Screen7 = () => {
     const [email, setEmail] = useState('');
     const [isAgreed, setIsAgreed] = useState(false);
@@ -130,13 +144,16 @@ export const Screen7 = () => {
 
     return (
         <BackgroundScreen>
-            <Modal btnType={'secondary'} type={'secondary'}>
+            <ModalStyled btnType={'secondary'} type={'secondary'}>
                 <Text>
                     Не откладывай карьеру на потом — давай к нам уже сейчас!
                 </Text>
                 <ButtonStyled type={'secondaryOutlined'}>На стажировку</ButtonStyled>
                 <Text>
-                    И принимай участие в розыгрыше — оставляй свои контакты, а мы случайным образом выберем тех, кто получит крутой мерч от Б1!
+                    {
+                        'И принимай участие в розыгрыше — оставляй свои контакты, ' +
+                        'а мы случайным образом до 30 ноября выберем тех, кто получит крутой мерч от Б1!'
+                    }
                 </Text>
                 <InputStyled
                     value={email}
@@ -163,7 +180,7 @@ export const Screen7 = () => {
                 >
                     Участвовать
                 </ButtonStyled>
-            </Modal>
+            </ModalStyled>
         </BackgroundScreen>
     )
 }

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   ${({$isModal}) => $isModal ? 'filter: blur(3.5px); transform: scale(1.05)' : ''};
 `;
 
-const InfoModalStyled = styled(InfoModal)`
+const ModalStyled = styled(InfoModal)`
     min-height: 421px;
 
     @media screen and (max-width: 320px) {
@@ -57,9 +57,9 @@ export const Screen3 = () => {
                 <Level1 />
             </Wrapper>
             {isModal && (
-                <InfoModalStyled
+                <ModalStyled
                     onClick={handleStart}
-                    title={'Добро пожаловать\nв Б1, консультант!'}
+                    title={'Добро пожаловать\nв Б1, стажер!'}
                     desc={
                         'Тебе предстоит показать свою математическую базу, ' +
                         'много учиться у коллег и работать с данными.'

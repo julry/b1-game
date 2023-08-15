@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { team, stone, binoculars} from './images';
+import { strategy, stone, clients} from './images';
 import { InfoModal } from '../../shared/InfoModal';
 import { Level3 } from './Level3';
-import { Text } from '../../shared/texts';
-import { Button } from '../../shared/Button';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -12,15 +10,24 @@ const Wrapper = styled.div`
   ${({$isModal}) => $isModal ? 'filter: blur(3.5px); transform: scale(1.05)' : ''};
 `;
 
+const ModalStyled = styled(InfoModal)`
+  min-height: 451px;
+
+  @media screen and (max-width: 320px) {
+    min-height: 416px;
+  }
+`;
+
+
 export const Screen5 = () => {
     const [isModal, setIsModal] = useState(true);
 
     const items = [
         {
-            name: 'team',
-            nameRu: 'Команда',
-            desc: '[навык\nуправление командой]',
-            src: team,
+            name: 'strategy',
+            nameRu: 'Стратегия',
+            desc: '[определение \nстратегии \nразвития группы]',
+            src: strategy,
             amount: 5,
         },
         {
@@ -31,10 +38,10 @@ export const Screen5 = () => {
             amount: 5,
         },
         {
-            name: 'binoculars',
-            nameRu: 'Бинокль',
-            desc: '[широкий кругозор]',
-            src: binoculars,
+            name: 'clients',
+            nameRu: 'Клиенты',
+            desc: '[поддержание \nдолгосрочных \nвзаимоотношений]',
+            src: clients,
             amount: 5,
         }
     ];
@@ -49,12 +56,11 @@ export const Screen5 = () => {
                 <Level3 />
             </Wrapper>
             {isModal && (
-                <InfoModal
+                <ModalStyled
                     onClick={handleStart}
-                    title={'Менеджер звучит\nсолидно!'}
+                    title={'Партнер звучит\nсолидно!'}
                     desc={
-                        'И ответственно! Прояви надёжность — умело ' +
-                        'управляй командой и продолжай расширять свой кругозор.'
+                        'И ответственно! Прояви надёжность — выстаивай стратегию и находи новых клиентов.'
                     }
                     items={items}
                 />

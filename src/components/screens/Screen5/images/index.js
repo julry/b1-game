@@ -6,14 +6,14 @@ import personRUp from './person2RightUp.svg';
 import personLUp from './person2LeftUp.svg';
 import clothes from './level3Clothes.svg';
 import stone from './stone.svg';
-import team from './team.svg';
-import binoculars from './binoculars.png';
-import binocularsDesc from './binocularsDesc.svg';
-import teamDesc from './teamDesc.svg';
 import stoneDesc from './stoneDesc.svg';
+import clientsDesc from './clientsDesc.svg';
+import clients from './clients.svg';
+import strategyDesc from './strategyDesc.svg';
+import strategy from './strategy.svg';
 
 export {
     person, personL, personRUp, personR,
     personLUp, clothes, personUp, stone,
-    team, binoculars, stoneDesc, teamDesc, binocularsDesc
+    strategy, clients, stoneDesc, strategyDesc, clientsDesc
 };

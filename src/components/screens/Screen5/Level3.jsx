@@ -6,8 +6,8 @@ import { DoneLevelModal } from '../../shared/DoneLevelModal';
 import { useProgress } from '../../../hooks/useProgress';
 import {
     person, personL, personRUp, personR,
-    personLUp, clothes, personUp, team,
-    stone, binoculars, teamDesc, stoneDesc, binocularsDesc
+    personLUp, clothes, personUp, strategy,
+    stone, clients, strategyDesc, stoneDesc, clientsDesc
 } from './images';
 
 export const Level3 = () => {
@@ -19,12 +19,12 @@ export const Level3 = () => {
     const [personSrcLeftUp, loadedPersonLeftUp] = useImage(personLUp);
     const [personSrcRightUp, loadedPersonRightUp] = useImage(personRUp);
     const [clothesSrc, loadedClothes] = useImage(clothes);
-    const [teamSrc, loadedTeam] = useImage(team);
-    const [binocularsSrc, loadedBinoculars] = useImage(binoculars);
+    const [strategySrc, loadedStrategy] = useImage(strategy);
+    const [clientsSrc, loadedClients] = useImage(clients);
     const [stoneSrc, loadedStone] = useImage(stone);
-    const [binocularsDescSrc, loadedBinocularsDescSrc] = useImage(binocularsDesc);
+    const [clientsDescSrc, loadedClientsDescSrc] = useImage(clientsDesc);
     const [stoneDescSrc, loadedStoneDescSrc] = useImage(stoneDesc);
-    const [teamDescSrc, loadedTeamDescSrc] = useImage(teamDesc);
+    const [strategyDescSrc, loadedStrategyDescSrc] = useImage(strategyDesc);
 
     const [isModal, setIsModal] = useState(false);
 
@@ -174,38 +174,38 @@ export const Level3 = () => {
 
     const items = [
         {
-            pic: teamSrc,
-            srcDesc: teamDescSrc,
+            pic: strategySrc,
+            srcDesc: strategyDescSrc,
             descD: 0,
             descW: 220,
             descH: 125,
             items: [
                 {
-                    id: 'team_1',
+                    id: 'strategy_1',
                     x: 7,
                     initialX: 7,
                     y: 390,
                 },
                 {
-                    id: 'team_2',
+                    id: 'strategy_2',
                     x: 219,
                     initialX: 219,
                     y: 363,
                 },
                 {
-                    id: 'team_3',
+                    id: 'strategy_3',
                     x: 505,
                     initialX: 505,
                     y: 447,
                 },
                 {
-                    id: 'team_4',
+                    id: 'strategy_4',
                     x: 657,
                     initialX: 657,
                     y: 303,
                 },
                 {
-                    id: 'team_5',
+                    id: 'strategy_5',
                     x: 781,
                     initialX: 781,
                     y: 420,
@@ -253,39 +253,39 @@ export const Level3 = () => {
             ]
         },
         {
-            pic: binocularsSrc,
-            srcDesc: binocularsDescSrc,
-            descD: 136,
-            descW: 193,
-            descH: 105,
+            pic: clientsSrc,
+            srcDesc: clientsDescSrc,
+            descD: 117,
+            descW: 183,
+            descH: 125,
             amount: 5,
             items: [
                 {
-                    id: 'binoculars_1',
+                    id: 'clients_1',
                     x: 181,
                     initialX: 181,
                     y: 358,
                 },
                 {
-                    id: 'binoculars_2',
+                    id: 'clients_2',
                     x: 333,
                     initialX: 333,
                     y: 531,
                 },
                 {
-                    id: 'binoculars_3',
+                    id: 'clients_3',
                     x: 426,
                     initialX: 426,
                     y: 383,
                 },
                 {
-                    id: 'binoculars_4',
+                    id: 'clients_4',
                     x: 506,
                     initialX: 506,
                     y: 299,
                 },
                 {
-                    id: 'binoculars_5',
+                    id: 'clients_5',
                     x: 981,
                     initialX: 981,
                     y: 384,
@@ -295,8 +295,8 @@ export const Level3 = () => {
     ];
 
     const isLoaded = loadedStone === 'loaded' && loadedStoneDescSrc === 'loaded'
-        && loadedBinoculars === 'loaded' && loadedBinocularsDescSrc === 'loaded'
-        && loadedTeam === 'loaded' && loadedTeamDescSrc === 'loaded'
+        && loadedClients === 'loaded' && loadedClientsDescSrc === 'loaded'
+        && loadedStrategy === 'loaded' && loadedStrategyDescSrc === 'loaded'
         && loadedPerson === 'loaded' && loadedPersonLeft === 'loaded'
         && loadedPersonRight === 'loaded' && loadedPersonUp === 'loaded'
         && loadedPersonLeftUp === 'loaded' && loadedPersonRightUp === 'loaded'

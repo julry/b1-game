@@ -56,9 +56,13 @@ const ModalStyled = styled(FlexWrapper)`
 
 const ButtonStyled = styled(Button)`
   position: absolute;
-  bottom: -19px;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
+  
+  @media screen and (max-width: 320px){
+    bottom: -7px;
+  }
 `;
 
 const StyledBlock = styled.div`
@@ -73,6 +77,7 @@ const Icon = styled.div`
   width: 31px;
   height: 24px;
   background: url(${icon}) no-repeat 0 0 /cover;
+  margin: 0 auto;
 `;
 
 export const Modal = ({className, children, icon, btnText, btnType, onClick, type = 'primary'}) => {
@@ -84,6 +89,7 @@ export const Modal = ({className, children, icon, btnText, btnType, onClick, typ
                     $bg={icon}
                     type={btnType}
                     onClick={onClick}
+                    $icon={icon}
                 >
                     {icon ? <Icon/> : btnText}
                 </ButtonStyled>}

@@ -12,8 +12,12 @@ const Wrapper = styled.div`
 const Background = styled.div`
   position: absolute;
   inset: 0;
-  background: url(${bg}) 0 0 /contain;
+  background: url(${bg}) 0 0 /cover;
   z-index: 1;
+  
+  @media screen and (min-width: 500px) {
+    background-size: contain;
+  }
 `;
 
 const Content = styled(FlexWrapper)`
@@ -29,6 +33,10 @@ const Logo = styled.div`
   background: url(${logo}) 0 0 /contain;
   width: 38px;
   height: 38px;
+  
+  @media screen and (max-width: 320px) {
+    right: 20px;
+  }
 `;
 
 export const BackgroundScreen = (props) => (

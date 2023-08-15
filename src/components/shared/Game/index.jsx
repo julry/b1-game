@@ -170,7 +170,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 textY: iconY + ITEM_SIZE / 2 + 8,
                 textRef: $thirdItems,
                 srcDesc: items[2].srcDesc,
-                descX: margin + 2 * block + 0.5 * distance - items[2].descD,
+                descX: margin + 2 * block + distance - items[2].descD,
                 descW: items[2].descW,
                 descH: items[2].descH,
             },
@@ -351,7 +351,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const positionX =  isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
                 : position?.x + velocity?.x;
 
-        const distance = (getIsShouldMoveLeft() || getIsShouldMoveRight()) ? 40 : 75;
+        const isMoveLeft = getIsShouldMoveLeft() &&
+            ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
+        const isMoveRight = getIsShouldMoveRight() &&
+            ($blocks.current[0].x < $blocks.current[0].initialX);
+        const distance = (isMoveLeft  || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
 
         if (
             $keysPressed.current.right &&
@@ -382,6 +386,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
     const drawIcons = () => {
         $ctx.current.fillStyle = "black";
+        $ctx.current.globalCompositeOperation = "source-over";
         for (let i = 0; i < $icons.current.length; i++) {
             const icon = $icons.current[i];
             $ctx.current?.drawImage(icon.src, icon.x, icon.y, icon.width, icon.height);
@@ -420,7 +425,6 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         $ctx.current?.clearRect?.(0, 0, $canvas.current?.width, $canvas.current?.height);
         $ctx.current?.drawImage(roadSrc, 0, $canvas.current?.height - INITIAL_PERSON_Y, $canvas.current?.width, INITIAL_PERSON_Y);
 
-        drawIcons();
         update();
 
         $logo.current.x = drawItems($logo.current, logoSrc);
@@ -442,6 +446,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         if (!!$thirdItems.current.length) {
             $thirdItems.current = drawAndCheckItems($thirdItems.current, position, velocity, height, width, items[2].pic);
         }
+
+        drawIcons();
 
         if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
             $person.current.velocity.x += 1;
@@ -486,8 +492,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
     const handleCanvasClick = (event) => {
         $clicked.current = {
-            x: event.clientX,
-            y: $canvas.current?.height - window.innerHeight + event.clientY,
+            x: event.clientX - $wrapper.current?.getBoundingClientRect().x,
+            y: event.clientY,
         }
     };
 

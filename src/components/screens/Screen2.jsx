@@ -1,26 +1,52 @@
+import { useState } from 'react';
+import styled from 'styled-components';
 import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
 import { useProgress } from '../../hooks/useProgress';
 
+const ModalStyled = styled(Modal)`
+  min-height: ${({$isDisc}) => $isDisc ? 340 : 308}px;
+
+  @media screen and (max-width: 320px) {
+    min-height: ${({$isDisc}) => $isDisc ? 291 : 259}px;
+  }
+`;
+
 export const Screen2 = () => {
-    const { next } = useProgress();
+    const [isDisc, setIsDisc] = useState(false);
+    const {next} = useProgress();
 
     const handleNext = () => {
-        next();
+        setTimeout(() => {
+            if (!isDisc) setIsDisc(true);
+            else next();
+        }, 300);
     };
+
+    const title = isDisc ? 'Дисклеймер' : 'Что делать?';
+    const text = () => isDisc ? (
+        <>
+            В этой игре ты пройдешь сокращенный путь от стажера
+            до партнера Б1. Реальный карьерный трек в компании
+            будет длиннее, но не менее насыщенный и интересный! Более
+            подробную информацию ты всегда можешь найти на сайте Б1.
+        </>
+    ) : (
+        <>
+            Беги вперед и собирай пасхалки. Каждая пасхалка поможет
+            тебе в карьерном росте. Когда соберешь их все — вставай на <b>ладонь</b>,
+            чтобы перепрыгнуть на следующую карьерную ступень.
+        </>
+    );
 
     return (
         <BackgroundScreen isLogo>
-            <Modal btnText={'Принято!'} btnType={'primary'} onClick={handleNext}>
-                <BoldText>Что делать?</BoldText>
+            <ModalStyled btnText={'Принято!'} btnType={'primary'} onClick={handleNext} $isDisc={isDisc}>
+                <BoldText>{title}</BoldText>
                 <br/>
-                <Text>
-                    Беги вперед и собирай пасхалки. Каждая пасхалка поможет
-                    тебе в карьерном росте. Когда соберешь их все — вставай на <b>ладонь</b>,
-                    чтобы перепрыгнуть на следующую карьерную ступень.
-                </Text>
-            </Modal>
+                <Text>{text()}</Text>
+            </ModalStyled>
         </BackgroundScreen>
-    )
-}
+    );
+};

@@ -19,7 +19,20 @@ const TextStyled = styled(Text)`
 `;
 
 const ButtonStyled = styled(Button)`
-    margin-top: min(10px, 2.6vw);
+  margin: min(10px, 2.6vw) auto 0;
+  max-width: 194px;
+  
+  &:nth-of-type(2){
+    max-width: 230px;
+  }
+`;
+
+const ModalStyled = styled(InfoModal)`
+    min-height: 567px;
+  
+  @media screen and (max-width: 320px) {
+    min-height: 518px;
+  }
 `;
 
 export const Screen4 = () => {
@@ -59,8 +72,8 @@ export const Screen4 = () => {
                 <Level2 />
             </Wrapper>
             {isModal && (
-                <InfoModal
-                    title={'Теперь ты старший консультант!'}
+                <ModalStyled
+                    title={'Теперь ты \nменеджер!'}
                     desc={
                         'Напрямую общайся с клиентами, работай с документами и не забудь про work-life balance.'
                     }
@@ -76,7 +89,7 @@ export const Screen4 = () => {
                     >
                         Продолжить расти
                     </ButtonStyled>
-                </InfoModal>
+                </ModalStyled>
             )}
         </>
     )

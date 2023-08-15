@@ -4,12 +4,21 @@ import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
 import { useProgress } from '../../hooks/useProgress';
+import { InfoModal } from '../shared/InfoModal';
 
 const Cup = styled.div`
   width: min(65px, 17.3vw);
   height: min(62px, 16.5vw);
   background: url(${cup}) no-repeat 0 0 /cover;
   margin: 0 auto min(17px, 4.5vw);
+`;
+
+const ModalStyled = styled(Modal)`
+  min-height: 421px;
+
+  @media screen and (max-width: 320px) {
+    min-height: 386px;
+  }
 `;
 
 export const Screen6 = () => {
@@ -21,16 +30,17 @@ export const Screen6 = () => {
 
     return (
         <BackgroundScreen>
-            <Modal btnText={'Круто!'} btnType={'secondary'} type={'secondary'} onClick={handleNext}>
+            <ModalStyled btnText={'Круто!'} btnType={'secondary'} type={'secondary'} onClick={handleNext}>
                 <Cup />
                 <BoldText>Вау, какой стремительный рост!</BoldText>
                 <br/>
                 <Text>
-                    Ты собрал все, что нужно для быстрого достижения карьерных вершин! В Б1 тебя ждут все возможности
-                    для развития — обучение, масштабные проекты, командировки, мероприятия, а ещё — поддержка коллег и
+                    Ты собрал все, что нужно для быстрого достижения карьерных вершин! В Б1 {'\n'}
+                    тебя ждут все возможности
+                    для развития — обучение, масштабные проекты, командировки,{'\n'} мероприятия, а ещё — поддержка коллег и
                     дружный коллектив.
                 </Text>
-            </Modal>
+            </ModalStyled>
         </BackgroundScreen>
     );
 };
