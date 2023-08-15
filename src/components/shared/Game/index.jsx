@@ -194,13 +194,13 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 {
                     x: -284,
                     initialX: -284,
-                    y: height - 120,
+                    y: 563 - 120,
                     width: 665,
                     height: 563,
                 },
                 {
                     x: 373,
-                    y: height - 120,
+                    y: 563 - 120,
                     initialX: 373,
                     width: 665,
                     height: 563
@@ -208,7 +208,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 {
                     x: 1028,
                     initialX: 1028,
-                    y: height - 120,
+                    y: 563 - 120,
                     width: 665,
                     height: 563
                 },
