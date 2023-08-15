@@ -340,6 +340,6 @@ export const Level3 = () => {
             onNext={handleNext}
             gameWidth={969 + 2 * BLOCK_WIDTH}
         />
-        {isModal && <DoneLevelModal onClose={() => setIsModal(false)}/>}
+        {isModal && <DoneLevelModal onClose={() => setIsModal(false)} isLast/>}
     </>;
 };

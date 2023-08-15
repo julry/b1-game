@@ -20,10 +20,10 @@ const TextStyled = styled(Text)`
 
 const ButtonStyled = styled(Button)`
   margin: min(10px, 2.6vw) auto 0;
-  max-width: 194px;
+  max-width: 214px;
   
   &:nth-of-type(2){
-    max-width: 230px;
+    max-width: 240px;
   }
 `;
 

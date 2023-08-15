@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import useImage from 'use-image';
 import blockImg from '../../../assets/images/block.svg';
 import roadImg from '../../../assets/images/road.svg';
@@ -118,7 +118,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const $isDone = useRef(false);
     const $isFinishing = useRef(false);
 
-    const setIcons = () => {
+    const setIcons = useCallback(() => {
         const iconY = 27;
         const marginL = $canvas.current?.width > 320 ? 19 : 5;
         const margin = $canvas.current?.width * marginL / 375;
@@ -175,7 +175,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 descH: items[2].descH,
             },
         ];
-    };
+    }, [items]);
 
     useEffect(() => {
         const isEverythingLoaded = loaded === 'loaded' && handLoaded === 'loaded'
@@ -216,7 +216,10 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             setIcons();
             animate();
         }
-    }, [loaded, handLoaded, roadLoaded, isPicsLoaded, logoLoaded, bgLoaded]);
+    }, [
+        loaded, handLoaded, roadLoaded, isPicsLoaded,
+        logoLoaded, bgLoaded, nextLevelItem, setIcons
+    ]);
 
     const getIsShouldMoveRight = () => {
         return $keysPressed.current.left

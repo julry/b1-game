@@ -4,7 +4,6 @@ import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
 import { useProgress } from '../../hooks/useProgress';
-import { InfoModal } from '../shared/InfoModal';
 
 const Cup = styled.div`
   width: min(65px, 17.3vw);
