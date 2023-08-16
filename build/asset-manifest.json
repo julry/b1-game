@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.edcbd049.css",
-    "main.js": "./static/js/main.94cc6140.js",
+    "main.js": "./static/js/main.25402eb1.js",
     "static/media/modalBorder.svg": "./static/media/modalBorder.6c7e28d6cb341ab86e3ddd6429ea2dab.svg",
     "static/media/modalBorderSecondary.svg": "./static/media/modalBorderSecondary.df9670ee1b48e372bfeeac0519ec7708.svg",
     "static/media/level3Clothes.svg": "./static/media/level3Clothes.15056dec61c61b76fdc5a32ad00974b2.svg",
@@ -44,7 +44,7 @@
     "static/media/arrowLeft.svg": "./static/media/arrowLeft.8621d1da4c696ea54540db4846ea3a98.svg",
     "static/media/arrowRight.svg": "./static/media/arrowRight.3fdce6ea231df880b14cff21430f1523.svg",
     "static/media/background.svg": "./static/media/background.703196d37e770d4715a7d74d67d66834.svg",
-    "static/media/dialog.svg": "./static/media/dialog.448fb7256d3ce412994459e5e0504987.svg",
+    "static/media/dialog.svg": "./static/media/dialog.83a2a615d7fdca8431d0c9db5d0fc293.svg",
     "static/media/road.svg": "./static/media/road.1f93aa06c350334e2630aa0077377c6b.svg",
     "static/media/clients.svg": "./static/media/clients.dfe86f090df639b3509811afbfe0efed.svg",
     "static/media/doneIcon.svg": "./static/media/doneIcon.3b997435fd3db02ec78109812ac7a741.svg",
@@ -55,10 +55,10 @@
     "static/media/rect.svg": "./static/media/rect.e99ef99ba97e3d2e21d77c6b75f2563c.svg",
     "static/media/rectSecondary.svg": "./static/media/rectSecondary.f11437f479c843a0e38212a460232637.svg",
     "main.edcbd049.css.map": "./static/css/main.edcbd049.css.map",
-    "main.94cc6140.js.map": "./static/js/main.94cc6140.js.map"
+    "main.25402eb1.js.map": "./static/js/main.25402eb1.js.map"
   },
   "entrypoints": [
     "static/css/main.edcbd049.css",
-    "static/js/main.94cc6140.js"
+    "static/js/main.25402eb1.js"
   ]
 }
