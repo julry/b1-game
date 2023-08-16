@@ -9,7 +9,7 @@ const ModalStyled  = styled(Modal)`
 export const DoneLevelModal = ({onClose, isLast}) => (
     <ModalStyled onClick={onClose} btnType={'primary'} btnText={'Уже бегу!'}>
         <BoldText>
-            Всё собрано!
+            Все собрано!
         </BoldText>
         <br/>
         <Text>

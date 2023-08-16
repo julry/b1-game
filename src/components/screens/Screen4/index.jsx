@@ -75,12 +75,12 @@ export const Screen4 = () => {
                 <ModalStyled
                     title={'Теперь ты \nменеджер!'}
                     desc={
-                        'Напрямую общайся с клиентами, работай с документами и не забудь про work-life balance.'
+                        'Напрямую общайся \nс клиентами, работай \nс документами и не забудь про work-life balance.'
                     }
                     items={items}
                 >
                     <TextStyled>
-                        А если хочешь к нам в команду Б1 уже сейчас — откликайся!
+                        А если хочешь к нам {'\n'}в команду Б1 уже сейчас — откликайся!
                     </TextStyled>
                     <ButtonStyled type={'primaryOutlined'}>На стажировку</ButtonStyled>
                     <ButtonStyled

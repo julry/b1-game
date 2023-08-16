@@ -1,6 +1,6 @@
 import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
-import { Text, TextSmall } from '../shared/texts';
+import { Text } from '../shared/texts';
 import { Button } from '../shared/Button';
 import styled from 'styled-components';
 import { useState } from 'react';
@@ -167,13 +167,13 @@ export const Screen7 = () => {
         <BackgroundScreen>
             <ModalStyled btnType={'secondary'} type={'secondary'}>
                 <Text>
-                    Не откладывай карьеру на потом — давай к нам уже сейчас!
+                    Не откладывай карьеру {'\n'}на потом — давай к нам {'\n'}уже сейчас!
                 </Text>
                 <ButtonStyled type={'secondaryOutlined'}>На стажировку</ButtonStyled>
                 <Text>
                     {
-                        'И принимай участие в розыгрыше — оставляй свои контакты, ' +
-                        'а мы случайным образом до 30 ноября выберем тех, кто получит крутой мерч от Б1!'
+                        'И принимай участие\nв розыгрыше — оставляй свои контакты, ' +
+                        'а мы случайным образом\nдо 30 ноября выберем тех, кто получит крутой \nмерч от Б1!'
                     }
                 </Text>
                 <InputStyled
