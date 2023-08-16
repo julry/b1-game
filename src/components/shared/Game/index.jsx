@@ -147,7 +147,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const iconY = 27;
         const marginL = $canvas.current?.width > 320 ? 19 : 5;
         const margin = $canvas.current?.width * marginL / 375;
-        const width = 87;
+        const width = 97;
         const block = ($canvas.current?.width - margin * 2) / 3;
         const distance = block - width;
         const deltaText = $canvas.current?.width > 300 ? ITEM_SIZE + 10 : ITEM_SIZE + 7;
@@ -168,6 +168,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 descX: margin - items[0].descD,
                 descW: items[0].descW,
                 descH: items[0].descH,
+                amount: items[0].amount,
             },
             {
                 x: margin + block + 0.5 * distance,
@@ -183,6 +184,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 descX: margin + block + 0.5 * distance - items[1].descD,
                 descW: items[1].descW,
                 descH: items[1].descH,
+                amount: items[1].amount,
             },
             {
                 x: margin + 2 * block + distance,
@@ -198,6 +200,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 descX: margin + 2 * block + distance - items[2].descD,
                 descW: items[2].descW,
                 descH: items[2].descH,
+                amount: items[2].amount,
             },
         ];
     }, [items]);
@@ -264,9 +267,12 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const isMoveRight = getIsShouldMoveRight() &&
             ($blocks.current[0].x < $blocks.current[0].initialX);
 
-        let velocityChange = 0.5;
+        let velocityChange = 0.8;
 
-        if (isMoveLeft || isMoveRight) velocityChange = 0.1;
+        if (
+            isMoveLeft || isMoveRight ||
+            velocity.x + velocityChange > MOVE_SIDE || velocity.x - velocityChange < -MOVE_SIDE
+        ) velocityChange = 0.001;
 
         if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
             $person.current.velocity.x += velocityChange;
@@ -472,26 +478,6 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const positionX = isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
             : position?.x + velocity?.x;
 
-        // const isMoveLeft = getIsShouldMoveLeft() &&
-        //     ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
-        // const isMoveRight = getIsShouldMoveRight() &&
-        //     ($blocks.current[0].x < $blocks.current[0].initialX);
-        // const distance = (isMoveLeft || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
-
-        // if (
-        //     $keysPressed.current.right &&
-        //     position?.x + velocity?.x - initialX > distance
-        // ) {
-        //     $keysPressed.current.right = false;
-        // }
-        //
-        // if (
-        //     $keysPressed.current.left &&
-        //     initialX - position?.x + velocity?.x > distance
-        // ) {
-        //     $keysPressed.current.left = false;
-        // }
-
         if (
             positionY + height + velocity?.y >= bottomBorder &&
             ($keysPressed.current.leftUp || $keysPressed.current.rightUp)
@@ -508,13 +494,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const drawIcons = () => {
         $ctx.current.fillStyle = 'black';
         $ctx.current.globalCompositeOperation = 'source-over';
+        $ctx.current.font = 'bold 22px PixeloidSans';
         for (let i = 0; i < $icons.current.length; i++) {
             const icon = $icons.current[i];
             $ctx.current?.drawImage(icon.src, icon.x, icon.y, icon.width, icon.height);
-            $ctx.current.font = 'bold 13px PixeloidSans';
-            $ctx.current?.fillText(`X`, icon.x + icon.deltaText, icon.textY - 3);
-            $ctx.current.font = 'bold 22px PixeloidSans';
-            $ctx.current?.fillText(icon.textRef.current.length, icon.x + icon.deltaAmount, icon.textY);
+            $ctx.current?.fillText(`${icon.amount - icon.textRef.current.length}/${icon.amount}`, icon.x + icon.deltaText, icon.textY);
             if (
                 $clicked.current.x >= icon.x && $clicked.current.x <= icon.x + icon.width
                 && $clicked.current.y >= icon.y && $clicked.current.y <= icon.y + icon.height
@@ -527,7 +511,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const drawBg = () => {
         $ctx.current.globalCompositeOperation = 'destination-over';
 
-        for (let i = 0; i < $bg.current.length; i++) {
+        for (let i = 0; i < $bg.current?.length; i++) {
             $bg.current[i].x = drawItems($bg.current[i], bgSrc);
         }
 

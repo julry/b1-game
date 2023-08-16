@@ -193,6 +193,7 @@ export const Level1 = () => {
             descD: 5,
             descW: 216,
             descH: 125,
+            amount: 5,
             items: [
                 {
                     id: 'calc_1',

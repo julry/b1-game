@@ -182,6 +182,7 @@ export const Level3 = () => {
             descD: 0,
             descW: 220,
             descH: 125,
+            amount: 5,
             items: [
                 {
                     id: 'strategy_1',

@@ -169,6 +169,7 @@ export const Level2 = () => {
             descD: 0,
             descW: 216,
             descH: 105,
+            amount: 5,
             items: [
                 {
                     id: 'pres_1',
