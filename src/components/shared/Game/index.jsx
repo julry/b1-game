@@ -427,7 +427,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
             if (
                 position.y + height <= blockY && position.y + height + velocity.y >= blockY
-                && position.x + width >= block.x && position.x <= block.x + BLOCK_WIDTH
+                && position.x + width / 2 >= block.x && position.x <= block.x + (BLOCK_WIDTH - width / 2)
                 && ((block.isFinish && $isDone.current) || !block.isFinish)
                 && ((block.isLast && $isLastShown.current) || !block.isLast)
             ) {
