@@ -175,12 +175,14 @@ export const Level1 = () => {
             x: 1025,
             initialX: 1025,
             y: 493,
+            isLast: true,
         },
         {
             id: 'block_21',
             x: 1022 + BLOCK_WIDTH,
             initialX: 1022 + BLOCK_WIDTH,
             y: 493,
+            isLast: true,
         },
     ];
 

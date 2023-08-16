@@ -157,18 +157,21 @@ export const Level3 = () => {
             x: 975,
             initialX: 975,
             y: 493,
+            isLast: true,
         },
         {
             id: 'block_7',
             x: 972 + BLOCK_WIDTH,
             initialX: 972 + BLOCK_WIDTH,
             y: 493,
+            isLast: true,
         },
         {
             id: 'block_753',
             x: 969 + 2 * BLOCK_WIDTH,
             initialX: 969 + 2 * BLOCK_WIDTH,
             y: 493,
+            isLast: true,
         },
     ];
 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ProgressProvider } from './context/ProgressContext';
 import { useProgressInit } from './hooks/useProgressInit';
 import { FlexWrapper } from './components/shared/FlexWrapper';
+import { preloadImage } from './utils/preloadImage';
 
 const Wrapper = styled(FlexWrapper)`
   height: ${({height}) => height}px;
@@ -30,6 +31,12 @@ function App() {
     const { screen } = progress;
 
     const Component = screen?.component || (() => null);
+
+    useEffect(() => {
+        const preloadImages = screen?.preloadImages;
+        const clears = preloadImages && preloadImages.map(img => preloadImage(img));
+        return () => clears && clears.forEach(clear => clear());
+    }, [screen]);
 
     useEffect(() => {
         function handleResize() {

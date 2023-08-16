@@ -138,6 +138,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const $nextLevelItem = useRef();
     const $icons = useRef([]);
     const $bg = useRef();
+    const $isLastShown = useRef(false);
 
     const $isDone = useRef(false);
     const $isFinishing = useRef(false);
@@ -201,21 +202,78 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         ];
     }, [items]);
 
-    const handleMoveDesktop = (e) => {
-        if (e.code === 'KeyA') {
+    const handleMoveDesktop = useCallback((e) => {
+        if (e.code === 'KeyA' || e.code === 'ArrowLeft') {
             handleLeft();
         }
-        if (e.code === 'KeyD') {
+        if (e.code === 'KeyD' || e.code === 'ArrowRight') {
             handleRight();
         }
-        if (e.code === 'KeyW') {
+        if (e.code === 'KeyW' || e.code === 'Space' || e.code === 'ArrowUp') {
             handleUp();
         }
-    };
+    }, []);
 
-    const handleStopMoveDesktop = (e) => {
-        if (e.code === 'KeyA' || e.code === 'KeyD') {
+    const handleStopMoveDesktop = useCallback((e) => {
+        if (e.code === 'KeyA' || e.code === 'KeyD' || e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
             handleStopMove();
+        }
+    }, []);
+
+    const animate = () => {
+        if (!$firstItems.current.length && !$secondItems.current.length && !$thirdItems.current.length && !$isDone.current) {
+            $isDone.current = true;
+            onDone();
+        }
+        requestAnimationFrame(animate);
+        if (!$ctx.current || !$canvas.current) return;
+        const {position, height, velocity, width} = $person.current;
+
+        $ctx.current?.clearRect?.(0, 0, $canvas.current?.width, $canvas.current?.height);
+        $ctx.current?.drawImage(roadSrc, 0, $canvas.current?.height - INITIAL_PERSON_Y, $canvas.current?.width, INITIAL_PERSON_Y);
+
+        update();
+        if (!$isLastShown.current) $ctx.current.globalAlpha = 0.5;
+        $logo.current.x = drawItems($logo.current, logoSrc);
+        $nextLevelItem.current.x = drawItems($nextLevelItem.current, $nextLevelItem.current.pic);
+
+        $ctx.current.globalAlpha = 1;
+
+        drawBg();
+
+        $blocks.current = drawAndCheckBlocks(position, velocity, height, width);
+
+        $ctx.current.globalAlpha = 1;
+
+        if (!!$firstItems.current.length) {
+            $firstItems.current = drawAndCheckItems($firstItems.current, position, velocity, height, width, items[0].pic);
+        }
+
+        if (!!$secondItems.current.length) {
+            $secondItems.current = drawAndCheckItems($secondItems.current, position, velocity, height, width, items[1].pic);
+        }
+
+        if (!!$thirdItems.current.length) {
+            $thirdItems.current = drawAndCheckItems($thirdItems.current, position, velocity, height, width, items[2].pic);
+        }
+
+        drawIcons();
+
+        const isMoveLeft = getIsShouldMoveLeft() &&
+            ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
+        const isMoveRight = getIsShouldMoveRight() &&
+            ($blocks.current[0].x < $blocks.current[0].initialX);
+
+        let velocityChange = 0.5;
+
+        if (isMoveLeft || isMoveRight) velocityChange = 0.1;
+
+        if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
+            $person.current.velocity.x += velocityChange;
+        } else if ($keysPressed.current.left && $person.current.position.x >= 0) {
+            $person.current.velocity.x -= velocityChange;
+        } else {
+            $person.current.velocity.x = 0;
         }
     };
 
@@ -273,7 +331,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         };
     }, [
         loaded, handLoaded, roadLoaded, isPicsLoaded,
-        logoLoaded, bgLoaded, nextLevelItem, setIcons
+        logoLoaded, bgLoaded, nextLevelItem, setIcons,
+        handleMoveDesktop, handleStopMoveDesktop
     ]);
 
     const getIsShouldMoveRight = () => {
@@ -310,9 +369,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         if (!$ctx.current || !$canvas.current) return;
         let src = blockSrc;
         let height = BLOCK_HEIGHT;
-        if (block.isFinish && !$isDone.current) {
+        if ((block.isFinish && !$isDone.current) || (block.isLast && !$isLastShown.current)) {
             $ctx.current.globalAlpha = 0.5;
-        } else $ctx.current.globalAlpha = 1;
+        } else {
+            $ctx.current.globalAlpha = 1;
+        }
 
         if (block.isHand) {
             src = handSrc;
@@ -368,6 +429,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 position.y + height <= blockY && position.y + height + velocity.y >= blockY
                 && position.x + width >= block.x && position.x <= block.x + BLOCK_WIDTH
                 && ((block.isFinish && $isDone.current) || !block.isFinish)
+                && ((block.isLast && $isLastShown.current) || !block.isLast)
             ) {
                 $person.current.velocity.y = 0;
                 $keysPressed.current.leftUp = false;
@@ -386,6 +448,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                     $person.current.velocity.y = -3;
                 } else {
                     $blocks.current[i].y = $blocks.current[$blocks.current.length - 1].y;
+                    if (!$isLastShown.current) $isLastShown.current = true;
                     if ($person.current.position.x < $canvas?.current?.width - 1.5 * BLOCK_WIDTH) {
                         $person.current.position.x += 2;
                     } else {
@@ -400,7 +463,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const update = () => {
         draw();
         const bottomBorder = $canvas?.current?.height - INITIAL_PERSON_Y;
-        const {position, velocity, height, initialX} = $person.current;
+        const {position, velocity, height} = $person.current;
         const positionY = position?.y + velocity?.y;
         const velocityY = (positionY + height + velocity?.y <= bottomBorder) ? velocity?.y + gravity : 0;
         const canvasWidth = $canvas?.current?.width;
@@ -409,10 +472,10 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const positionX = isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
             : position?.x + velocity?.x;
 
-        const isMoveLeft = getIsShouldMoveLeft() &&
-            ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
-        const isMoveRight = getIsShouldMoveRight() &&
-            ($blocks.current[0].x < $blocks.current[0].initialX);
+        // const isMoveLeft = getIsShouldMoveLeft() &&
+        //     ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
+        // const isMoveRight = getIsShouldMoveRight() &&
+        //     ($blocks.current[0].x < $blocks.current[0].initialX);
         // const distance = (isMoveLeft || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
 
         // if (
@@ -469,60 +532,6 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         }
 
         $ctx.current.globalCompositeOperation = 'source-over';
-    };
-
-    const animate = () => {
-        if (!$firstItems.current.length && !$secondItems.current.length && !$thirdItems.current.length && !$isDone.current) {
-            $isDone.current = true;
-            onDone();
-        }
-        requestAnimationFrame(animate);
-        if (!$ctx.current || !$canvas.current) return;
-        const {position, height, velocity, width} = $person.current;
-
-        $ctx.current?.clearRect?.(0, 0, $canvas.current?.width, $canvas.current?.height);
-        $ctx.current?.drawImage(roadSrc, 0, $canvas.current?.height - INITIAL_PERSON_Y, $canvas.current?.width, INITIAL_PERSON_Y);
-
-        update();
-
-        $logo.current.x = drawItems($logo.current, logoSrc);
-
-        drawBg();
-
-        $nextLevelItem.current.x = drawItems($nextLevelItem.current, $nextLevelItem.current.pic);
-
-        $blocks.current = drawAndCheckBlocks(position, velocity, height, width);
-
-        if (!!$firstItems.current.length) {
-            $firstItems.current = drawAndCheckItems($firstItems.current, position, velocity, height, width, items[0].pic);
-        }
-
-        if (!!$secondItems.current.length) {
-            $secondItems.current = drawAndCheckItems($secondItems.current, position, velocity, height, width, items[1].pic);
-        }
-
-        if (!!$thirdItems.current.length) {
-            $thirdItems.current = drawAndCheckItems($thirdItems.current, position, velocity, height, width, items[2].pic);
-        }
-
-        drawIcons();
-
-        const isMoveLeft = getIsShouldMoveLeft() &&
-            ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
-        const isMoveRight = getIsShouldMoveRight() &&
-            ($blocks.current[0].x < $blocks.current[0].initialX);
-
-        let velocityChange = 0.5;
-
-        if (isMoveLeft || isMoveRight) velocityChange = 0.1;
-
-        if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
-            $person.current.velocity.x += velocityChange;
-        } else if ($keysPressed.current.left && $person.current.position.x >= 0) {
-            $person.current.velocity.x -= velocityChange;
-        } else {
-            $person.current.velocity.x = 0;
-        }
     };
 
     const handleLeft = () => {
