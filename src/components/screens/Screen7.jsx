@@ -1,6 +1,6 @@
 import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
-import { Text } from '../shared/texts';
+import { Text, TextSmall } from '../shared/texts';
 import { Button } from '../shared/Button';
 import styled from 'styled-components';
 import { useState } from 'react';
@@ -36,16 +36,16 @@ const RadioIconStyled = styled.div`
 
 const InputStyled = styled.input`
   max-width: 250px;
-  margin: min(3.733vw, 20px) auto min(2.933vw, 11px);
+  margin: min(3.733vw, 20px) auto ${({$isCorrect}) => $isCorrect ? 'min(2.933vw, 11px)' : 0};
   outline: none;
-  border: 1px solid ${({value}) => !!value ? '#444042' : '#B1B1B1' };
+  border: 1px solid ${({$isCorrect, value}) => !!value ? $isCorrect ? '#444042' : '#ff2d01' : '#B1B1B1' };
   background: #FFFFFF;
   border-radius: 5px;
   width: 100%;
   padding: 7px 10px;
   font-size: 14px;
   transition: border 300ms;
-  color: #444042;
+  color: ${({$isCorrect}) => $isCorrect ? '#444042' : '#ff2d01'};
   height: 32px;
   
   &::placeholder {
@@ -101,6 +101,12 @@ const RadioButtonLabel = styled.label`
   }
 `;
 
+const ErrorText = styled.p`
+  font-size: 11px;
+  color: #ff2d01;
+  margin: 5px 0;
+`;
+
 const Link = styled.a`
     color: inherit;
 `;
@@ -117,8 +123,10 @@ export const Screen7 = () => {
     const [email, setEmail] = useState('');
     const [isAgreed, setIsAgreed] = useState(false);
     const [isSending, setIsSending] = useState(false);
+    const [isCorrect, setIsCorrect] = useState(true);
     const { next } = useProgress();
 
+    const emailRegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const sendData = () => {
         setIsSending(true);
 
@@ -142,6 +150,19 @@ export const Screen7 = () => {
         });
     };
 
+    const handleBlur = () => {
+        if (email.match(emailRegExp) || !email) {
+            setIsCorrect(true);
+        } else {
+            setIsCorrect(false);
+        }
+    };
+
+    const handleChange = (e) => {
+        setIsCorrect(true);
+        setEmail(e.target.value)
+    };
+
     return (
         <BackgroundScreen>
             <ModalStyled btnType={'secondary'} type={'secondary'}>
@@ -158,8 +179,11 @@ export const Screen7 = () => {
                 <InputStyled
                     value={email}
                     placeholder="example@mail.ru"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    $isCorrect={isCorrect}
                 />
+                {!isCorrect && <ErrorText>Введи корректный e-mail</ErrorText>}
                 <RadioButtonLabel $checked={isAgreed}>
                     <InputRadioButton
                         type="checkbox"
@@ -176,7 +200,7 @@ export const Screen7 = () => {
                 <ButtonStyled
                     type={'secondary'}
                     onClick={sendData}
-                    disabled={!isAgreed || !email || isSending}
+                    disabled={!isAgreed || !isCorrect || !email || isSending}
                 >
                     Участвовать
                 </ButtonStyled>

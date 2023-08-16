@@ -37,6 +37,10 @@ const Logo = styled.div`
   @media screen and (max-width: 320px) {
     right: 20px;
   }
+
+  @media screen and (min-width: 480px) {
+    right: 35px;
+  }
 `;
 
 export const BackgroundScreen = (props) => (

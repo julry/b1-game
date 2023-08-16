@@ -33,6 +33,13 @@ const DialogWrapper = styled.div`
     width: 270px;
     height: 157px;
   }
+
+  @media screen and (max-width: 300px) {
+    padding: 15px 18px;
+    width: 250px;
+    height: 146px;
+  }
+  
 `;
 
 const Title = styled(BoldText)`
