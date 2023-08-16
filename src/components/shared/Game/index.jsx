@@ -43,7 +43,9 @@ const ButtonsBlock = styled.div`
   justify-content: space-between;
   color: white;
   text-align: center;
-
+  -webkit-touch-callout: none;
+  user-select: none;
+  
   @media screen and (min-width: 450px) {
     width: ${isDesktop ? '400px' : '200px'};
   }
@@ -57,6 +59,8 @@ const Button = styled.button`
   background-color: transparent;
   background-size: cover;
   background-repeat: no-repeat;
+  -webkit-touch-callout: none;
+  user-select: none; 
 `;
 
 const ButtonRight = styled(Button)`
@@ -74,7 +78,13 @@ const ButtonUp = styled(Button)`
   background-image: url(${arrowUp});
 `;
 
-const gravity = 0.1;
+const MoveButtons = styled.div`
+  display: flex;
+  -webkit-touch-callout: none;
+  user-select: none;
+`;
+
+const gravity = 0.2;
 
 export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, onDone, onNext, gameWidth, isFirst}) => {
     const [blockSrc, loaded] = useImage(blockImg);
@@ -400,21 +410,21 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
         const isMoveRight = getIsShouldMoveRight() &&
             ($blocks.current[0].x < $blocks.current[0].initialX);
-        const distance = (isMoveLeft || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
+        // const distance = (isMoveLeft || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
 
-        if (
-            $keysPressed.current.right &&
-            position?.x + velocity?.x - initialX > distance
-        ) {
-            $keysPressed.current.right = false;
-        }
-
-        if (
-            $keysPressed.current.left &&
-            initialX - position?.x + velocity?.x > distance
-        ) {
-            $keysPressed.current.left = false;
-        }
+        // if (
+        //     $keysPressed.current.right &&
+        //     position?.x + velocity?.x - initialX > distance
+        // ) {
+        //     $keysPressed.current.right = false;
+        // }
+        //
+        // if (
+        //     $keysPressed.current.left &&
+        //     initialX - position?.x + velocity?.x > distance
+        // ) {
+        //     $keysPressed.current.left = false;
+        // }
 
         if (
             positionY + height + velocity?.y >= bottomBorder &&
@@ -494,17 +504,26 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
         drawIcons();
 
+        const isMoveLeft = getIsShouldMoveLeft() &&
+            ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
+        const isMoveRight = getIsShouldMoveRight() &&
+            ($blocks.current[0].x < $blocks.current[0].initialX);
+
+        let velocityChange = 0.5;
+
+        if (isMoveLeft || isMoveRight) velocityChange = 0.1;
+
         if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
-            $person.current.velocity.x += 0.5;
+            $person.current.velocity.x += velocityChange;
         } else if ($keysPressed.current.left && $person.current.position.x >= 0) {
-            $person.current.velocity.x -= 0.5;
+            $person.current.velocity.x -= velocityChange;
         } else {
             $person.current.velocity.x = 0;
         }
     };
 
     const handleLeft = () => {
-        if ($keysPressed.current.leftUp || $isFinishing.current) return;
+        if ($isFinishing.current) return;
         if (!!$person.current.velocity.y) {
             $keysPressed.current.leftUp = true;
         }
@@ -516,11 +535,11 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const handleUp = () => {
         if (!!$person.current.velocity.y || $isFinishing.current) return;
         const {velocity} = $person.current;
-        $person.current.velocity.y = velocity?.y - 5;
+        $person.current.velocity.y = velocity?.y - 7;
     };
 
     const handleRight = () => {
-        if ($keysPressed.current.rightUp || $isFinishing.current) return;
+        if ($isFinishing.current) return;
         if (!!$person.current.velocity.y) {
             $keysPressed.current.rightUp = true;
         }
@@ -553,7 +572,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                     ) : (
                         <>
                             <ButtonUp onClick={handleUp}/>
-                            <div>
+                            <MoveButtons>
                                 <ButtonLeft
                                     onTouchStart={handleLeft}
                                     onTouchEnd={handleStopMove}
@@ -562,7 +581,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                                     onTouchStart={handleRight}
                                     onTouchEnd={handleStopMove}
                                 />
-                            </div>
+                            </MoveButtons>
                         </>
                     )
                 }
