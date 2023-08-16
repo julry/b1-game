@@ -45,6 +45,7 @@ const ButtonsBlock = styled.div`
   text-align: center;
   -webkit-touch-callout: none;
   user-select: none;
+  outline: none;
   
   @media screen and (min-width: 450px) {
     width: ${isDesktop ? '400px' : '200px'};
@@ -60,7 +61,8 @@ const Button = styled.button`
   background-size: cover;
   background-repeat: no-repeat;
   -webkit-touch-callout: none;
-  user-select: none; 
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const ButtonRight = styled(Button)`
@@ -82,6 +84,7 @@ const MoveButtons = styled.div`
   display: flex;
   -webkit-touch-callout: none;
   user-select: none;
+  outline: none;
 `;
 
 const gravity = 0.2;
