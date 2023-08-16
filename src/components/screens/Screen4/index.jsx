@@ -42,21 +42,21 @@ export const Screen4 = () => {
         {
             name: 'pres',
             nameRu: 'Презентация',
-            desc: '[навык презентации]',
+            desc: 'навык презентации',
             src: pres,
             amount: 5,
         },
         {
             name: 'balance',
             nameRu: 'Весы',
-            desc: '[work-life balance]',
+            desc: 'work-life balance',
             src: balance,
             amount: 5,
         },
         {
             name: 'folder',
             nameRu: 'Папка',
-            desc: '[работа с документами]',
+            desc: 'работа с документами',
             src: folder,
             amount: 5,
         }

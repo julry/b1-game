@@ -27,14 +27,14 @@ export const Screen3 = () => {
         {
             name: 'calc',
             nameRu: 'Цифра',
-            desc: '[сильная\nматематическая база]',
+            desc: 'сильная\nматематическая база',
             src: calc,
             amount: 5,
         },
         {
             name: 'glasses',
             nameRu: 'Очки',
-            desc: '[быстрая\nобучаемость]',
+            desc: 'быстрая\nобучаемость',
             src: glasses,
             amount: 5,
         },

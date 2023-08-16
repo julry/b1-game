@@ -20,6 +20,8 @@ import {
     PERSON_HEIGHT,
     PERSON_WIDTH
 } from './constants';
+import { isDesktop } from 'react-device-detect';
+import { Text } from '../texts';
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,8 +39,14 @@ const ButtonsBlock = styled.div`
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  width: 190px;
+  width: 85%;
   justify-content: space-between;
+  color: white;
+  text-align: center;
+
+  @media screen and (min-width: 450px) {
+    width: ${isDesktop ? '400px' : '200px'};
+  }
 `;
 
 const Button = styled.button`
@@ -53,6 +61,7 @@ const Button = styled.button`
 
 const ButtonRight = styled(Button)`
   background-image: url(${arrowRight});
+  margin-left: 20px;
 `;
 
 const ButtonLeft = styled(Button)`
@@ -65,9 +74,9 @@ const ButtonUp = styled(Button)`
   background-image: url(${arrowUp});
 `;
 
-const gravity = 0.5;
+const gravity = 0.1;
 
-export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, onDone, onNext, gameWidth}) => {
+export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, onDone, onNext, gameWidth, isFirst}) => {
     const [blockSrc, loaded] = useImage(blockImg);
     const [roadSrc, roadLoaded] = useImage(roadImg);
     const [handSrc, handLoaded] = useImage(handImg);
@@ -76,6 +85,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const $canvas = useRef();
     const $ctx = useRef();
     const $wrapper = useRef();
+    const $isAnimated = useRef(false);
+
     const $person = useRef({
         position: {
             x: INITIAL_PERSON_X,
@@ -177,45 +188,76 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         ];
     }, [items]);
 
+    const handleMoveDesktop = (e) => {
+        if (e.code === 'KeyA') {
+            handleLeft();
+        }
+        if (e.code === 'KeyD') {
+            handleRight();
+        }
+        if (e.code === 'KeyW') {
+            handleUp();
+        }
+    };
+
+    const handleStopMoveDesktop = (e) => {
+        if (e.code === 'KeyA' || e.code === 'KeyD') {
+            handleStopMove();
+        }
+    };
+
     useEffect(() => {
         const isEverythingLoaded = loaded === 'loaded' && handLoaded === 'loaded'
             && roadLoaded === 'loaded' && isPicsLoaded && logoLoaded === 'loaded'
             && bgLoaded === 'loaded';
         if ($canvas.current && isEverythingLoaded) {
-            const canvas = $canvas.current;
-            $ctx.current = canvas?.getContext('2d');
-            $canvas.current.width = $wrapper.current?.clientWidth;
-            const height = $wrapper.current?.clientHeight;
-            $ctx.current.imageSmoothingEnabled = false;
-            $canvas.current.height = height;
-            $person.current.position.y = height - $person.current.height - INITIAL_PERSON_Y;
-            $nextLevelItem.current = nextLevelItem;
-            $bg.current = [
-                {
-                    x: -284,
-                    initialX: -284,
-                    y: 563 - 120,
-                    width: 665,
-                    height: 563,
-                },
-                {
-                    x: 373,
-                    y: 563 - 120,
-                    initialX: 373,
-                    width: 665,
-                    height: 563
-                },
-                {
-                    x: 1028,
-                    initialX: 1028,
-                    y: 563 - 120,
-                    width: 665,
-                    height: 563
-                },
-            ];
-            setIcons();
-            animate();
+            if (isDesktop) {
+                window.addEventListener('keydown', handleMoveDesktop);
+                window.addEventListener('keyup', handleStopMoveDesktop);
+            }
+            if (!$isAnimated.current) {
+                $isAnimated.current = true;
+                const canvas = $canvas.current;
+                $ctx.current = canvas?.getContext('2d');
+                $canvas.current.width = $wrapper.current?.clientWidth;
+                const height = $wrapper.current?.clientHeight;
+                $ctx.current.imageSmoothingEnabled = false;
+                $canvas.current.height = height;
+                $person.current.position.y = height - $person.current.height - INITIAL_PERSON_Y;
+                $nextLevelItem.current = nextLevelItem;
+                $bg.current = [
+                    {
+                        x: -284,
+                        initialX: -284,
+                        y: 563 - 120,
+                        width: 665,
+                        height: 563,
+                    },
+                    {
+                        x: 373,
+                        y: 563 - 120,
+                        initialX: 373,
+                        width: 665,
+                        height: 563
+                    },
+                    {
+                        x: 1028,
+                        initialX: 1028,
+                        y: 563 - 120,
+                        width: 665,
+                        height: 563
+                    },
+                ];
+                setIcons();
+                animate();
+            }
         }
+        return () => {
+            if (isDesktop) {
+                window.removeEventListener('keydown', handleMoveDesktop);
+                window.removeEventListener('keyup', handleStopMoveDesktop);
+            }
+        };
     }, [
         loaded, handLoaded, roadLoaded, isPicsLoaded,
         logoLoaded, bgLoaded, nextLevelItem, setIcons
@@ -224,12 +266,12 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const getIsShouldMoveRight = () => {
         return $keysPressed.current.left
             && ($person.current.position.x < $canvas.current?.width / 2);
-    }
+    };
 
     const getIsShouldMoveLeft = () => {
         return ($keysPressed.current.right || $isFinishing.current)
             && ($person.current.position.x > $canvas.current?.width / 2);
-    }
+    };
 
     const draw = () => {
         if (!$ctx.current) return;
@@ -247,7 +289,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         } else if (velocity.y !== 0 && !$isFinishing.current) {
             src = personPics.up;
         }
-        $ctx.current.globalCompositeOperation = "destination-over";
+        $ctx.current.globalCompositeOperation = 'destination-over';
         $ctx.current?.drawImage(src, position.x, position.y, persWidth, height);
     };
 
@@ -340,7 +382,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             }
         }
         return array;
-    }
+    };
 
     const update = () => {
         draw();
@@ -351,14 +393,14 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         const canvasWidth = $canvas?.current?.width;
         const isLeftEdge = position?.x + velocity?.x <= 0;
         const isRightEdge = position?.x + velocity?.x >= canvasWidth - 2 * PERSON_WIDTH;
-        const positionX =  isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
-                : position?.x + velocity?.x;
+        const positionX = isLeftEdge ? 0 : isRightEdge ? canvasWidth - 2 * PERSON_WIDTH
+            : position?.x + velocity?.x;
 
         const isMoveLeft = getIsShouldMoveLeft() &&
             ($blocks.current[$blocks.current.length - 1].x > $blocks.current[$blocks.current.length - 1].initialX - (gameWidth - $canvas.current?.width) - BLOCK_WIDTH + 3);
         const isMoveRight = getIsShouldMoveRight() &&
             ($blocks.current[0].x < $blocks.current[0].initialX);
-        const distance = (isMoveLeft  || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
+        const distance = (isMoveLeft || isMoveRight) ? 75 - 6 * MOVE_SIDE : 75;
 
         if (
             $keysPressed.current.right &&
@@ -388,14 +430,14 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     };
 
     const drawIcons = () => {
-        $ctx.current.fillStyle = "black";
-        $ctx.current.globalCompositeOperation = "source-over";
+        $ctx.current.fillStyle = 'black';
+        $ctx.current.globalCompositeOperation = 'source-over';
         for (let i = 0; i < $icons.current.length; i++) {
             const icon = $icons.current[i];
             $ctx.current?.drawImage(icon.src, icon.x, icon.y, icon.width, icon.height);
-            $ctx.current.font = "bold 13px PixeloidSans";
+            $ctx.current.font = 'bold 13px PixeloidSans';
             $ctx.current?.fillText(`X`, icon.x + icon.deltaText, icon.textY - 3);
-            $ctx.current.font = "bold 22px PixeloidSans";
+            $ctx.current.font = 'bold 22px PixeloidSans';
             $ctx.current?.fillText(icon.textRef.current.length, icon.x + icon.deltaAmount, icon.textY);
             if (
                 $clicked.current.x >= icon.x && $clicked.current.x <= icon.x + icon.width
@@ -406,14 +448,14 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         }
     };
 
-    const drawBg= () => {
-        $ctx.current.globalCompositeOperation = "destination-over";
+    const drawBg = () => {
+        $ctx.current.globalCompositeOperation = 'destination-over';
 
         for (let i = 0; i < $bg.current.length; i++) {
             $bg.current[i].x = drawItems($bg.current[i], bgSrc);
         }
 
-        $ctx.current.globalCompositeOperation = "source-over";
+        $ctx.current.globalCompositeOperation = 'source-over';
     };
 
     const animate = () => {
@@ -453,15 +495,9 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         drawIcons();
 
         if ($keysPressed.current.right && $person.current.position.x <= $canvas.current?.width - PERSON_WIDTH) {
-            $person.current.velocity.x += 1;
-            if ($person.current.velocity.x > 11) {
-                $keysPressed.current.right = false;
-            }
+            $person.current.velocity.x += 0.5;
         } else if ($keysPressed.current.left && $person.current.position.x >= 0) {
-            $person.current.velocity.x -= 1;
-            if ($person.current.velocity.x < -11) {
-                $keysPressed.current.left = false;
-            }
+            $person.current.velocity.x -= 0.5;
         } else {
             $person.current.velocity.x = 0;
         }
@@ -480,7 +516,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const handleUp = () => {
         if (!!$person.current.velocity.y || $isFinishing.current) return;
         const {velocity} = $person.current;
-        $person.current.velocity.y = velocity?.y - 12;
+        $person.current.velocity.y = velocity?.y - 5;
     };
 
     const handleRight = () => {
@@ -497,16 +533,39 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         $clicked.current = {
             x: event.clientX - $wrapper.current?.getBoundingClientRect().x,
             y: event.clientY,
-        }
+        };
+    };
+
+    const handleStopMove = () => {
+        $keysPressed.current.right = false;
+        $keysPressed.current.left = false;
     };
 
     return (
         <Wrapper ref={$wrapper}>
             <canvas ref={$canvas} onClick={handleCanvasClick}/>
             <ButtonsBlock>
-                <ButtonLeft onClick={handleLeft} />
-                <ButtonRight onClick={handleRight} />
-                <ButtonUp onClick={handleUp} />
+                {
+                    isDesktop ? (
+                        <Text>
+                            {isFirst ? 'Управляй персонажем с помощью клавиатуры компьютера' : ''}
+                        </Text>
+                    ) : (
+                        <>
+                            <ButtonUp onClick={handleUp}/>
+                            <div>
+                                <ButtonLeft
+                                    onTouchStart={handleLeft}
+                                    onTouchEnd={handleStopMove}
+                                />
+                                <ButtonRight
+                                    onTouchStart={handleRight}
+                                    onTouchEnd={handleStopMove}
+                                />
+                            </div>
+                        </>
+                    )
+                }
             </ButtonsBlock>
         </Wrapper>
     );

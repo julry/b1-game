@@ -26,21 +26,21 @@ export const Screen5 = () => {
         {
             name: 'strategy',
             nameRu: 'Стратегия',
-            desc: '[определение \nстратегии \nразвития группы]',
+            desc: 'определение \nстратегии \nразвития группы',
             src: strategy,
             amount: 5,
         },
         {
             name: 'stone',
             nameRu: 'Камень',
-            desc: '[надежность]',
+            desc: 'надежность',
             src: stone,
             amount: 5,
         },
         {
             name: 'clients',
             nameRu: 'Клиенты',
-            desc: '[поддержание \nдолгосрочных \nвзаимоотношений]',
+            desc: 'поддержание \nдолгосрочных \nвзаимоотношений',
             src: clients,
             amount: 5,
         }
