@@ -8,7 +8,7 @@
 
 @font-face {
     font-family: 'PixeloidSans';
-    src: local('PixeloidSans'), local('Pixeloid Sans'),
+    src: local('PixeloidSans-Bold'), local('Pixeloid Sans Bold'), local('PixeloidSansBold'),
     url('./assets/fonts/PixeloidSans/PixeloidSans-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
