@@ -26,6 +26,8 @@ import commonPerson3 from '../assets/images/commonPerson3.svg';
 import dialog from '../assets/images/dialog.svg';
 import road from '../assets/images/road.svg';
 import background from '../assets/images/background.svg';
+import rect from '../assets/images/rectSecondary.svg';
+import modalBorderSecondary from '../assets/images/modalBorderSecondary.svg';
 
 export const screens = [
     {
@@ -44,7 +46,8 @@ export const screens = [
         preloadImages: [
             person2, person2L, person2RUp, person2R,
             person2LUp, clothes2, person2Up, pres,
-            balance, folder, presDesc, balanceDesc, folderDesc
+            balance, folder, presDesc, balanceDesc, folderDesc,
+            rect, modalBorderSecondary, cup
         ]
     },
     {
@@ -59,7 +62,7 @@ export const screens = [
     {
         id: 3,
         component: Screen4,
-        preloadImages: [dialog, cup, commonPerson3]
+        preloadImages: [dialog, commonPerson3]
     },
     {
         id: 4,
