@@ -30,7 +30,7 @@ const Logo = styled.div`
   position: absolute;
   top: min(29px, 7.7vw);
   right: calc((100% - 320px) / 2);
-  background: url(${logo}) 0 0 /contain;
+  background: url(${logo}) no-repeat 0 0 /contain;
   width: 38px;
   height: 38px;
   

@@ -269,6 +269,8 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
         let velocityChange = 0.8;
 
+        draw();
+
         if (
             isMoveLeft || isMoveRight ||
             velocity.x + velocityChange > MOVE_SIDE || velocity.x - velocityChange < -MOVE_SIDE
@@ -367,7 +369,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         } else if (velocity.y !== 0 && !$isFinishing.current) {
             src = personPics.up;
         }
-        $ctx.current.globalCompositeOperation = 'destination-over';
+        $ctx.current.globalCompositeOperation = 'source-over';
         $ctx.current?.drawImage(src, position.x, position.y, persWidth, height);
     };
 
@@ -467,7 +469,6 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     };
 
     const update = () => {
-        draw();
         const bottomBorder = $canvas?.current?.height - INITIAL_PERSON_Y;
         const {position, velocity, height} = $person.current;
         const positionY = position?.y + velocity?.y;
