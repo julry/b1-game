@@ -14,7 +14,7 @@ const Background = styled.div`
   inset: 0;
   background: url(${bg}) 0 0 /cover;
   z-index: 1;
-  
+
   @media screen and (min-width: 500px) {
     background-size: contain;
   }
@@ -33,7 +33,7 @@ const Logo = styled.div`
   background: url(${logo}) no-repeat 0 0 /contain;
   width: 38px;
   height: 38px;
-  
+
   @media screen and (max-width: 320px) {
     right: 20px;
   }
@@ -52,4 +52,4 @@ export const BackgroundScreen = (props) => (
             {props.children}
         </Content>
     </Wrapper>
-)
+);

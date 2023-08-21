@@ -333,17 +333,19 @@ export const Level3 = () => {
         next();
     };
 
-    return <>
-        <Game
-            blocks={blocks}
-            items={items}
-            isPicsLoaded={isLoaded}
-            personPics={personsPics}
-            nextLevelItem={nextLevelItem}
-            onDone={handleDone}
-            onNext={handleNext}
-            gameWidth={969 + 2 * BLOCK_WIDTH}
-        />
-        {isModal && <DoneLevelModal onClose={() => setIsModal(false)} isLast/>}
-    </>;
+    return (
+        <>
+            <Game
+                blocks={blocks}
+                items={items}
+                isPicsLoaded={isLoaded}
+                personPics={personsPics}
+                nextLevelItem={nextLevelItem}
+                onDone={handleDone}
+                onNext={handleNext}
+                gameWidth={969 + 2 * BLOCK_WIDTH}
+            />
+            {isModal && <DoneLevelModal onClose={() => setIsModal(false)} isLast/>}
+        </>
+    );
 };

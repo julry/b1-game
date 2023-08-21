@@ -5,7 +5,6 @@ import dialog from '../../assets/images/dialog.svg';
 import { BoldText } from '../shared/texts';
 import { Button } from '../shared/Button';
 
-
 const PersonWrapper = styled.div`
   margin-top: auto;
   width: 177px;
@@ -49,7 +48,6 @@ const DialogWrapper = styled.div`
     width: 260px;
     height: 210px;
   }
-  
 `;
 
 const TextStyled = styled.p`
@@ -87,5 +85,5 @@ export const Screen8 = () => {
                 <Person/>
             </PersonWrapper>
         </BackgroundScreen>
-    )
-}
+    );
+};

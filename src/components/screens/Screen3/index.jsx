@@ -13,11 +13,11 @@ const Wrapper = styled.div`
 `;
 
 const ModalStyled = styled(InfoModal)`
-    min-height: 421px;
+  min-height: 421px;
 
-    @media screen and (max-width: 320px) {
-      min-height: 386px;
-    }
+  @media screen and (max-width: 320px) {
+    min-height: 386px;
+  }
 `;
 
 export const Screen3 = () => {
@@ -68,6 +68,5 @@ export const Screen3 = () => {
                 />
             )}
         </>
-    )
-
-}
+    );
+};

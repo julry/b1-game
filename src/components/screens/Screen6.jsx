@@ -14,6 +14,7 @@ const Cup = styled.div`
 
 const ModalStyled = styled(Modal)`
   min-height: 436px;
+  
   @media screen and (max-width: 320px) {
     min-height: 388px;
   }

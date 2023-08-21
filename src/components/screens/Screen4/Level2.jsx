@@ -140,7 +140,7 @@ export const Level2 = () => {
         },
         {
             id: 'block_9',
-            x: 897 + BLOCK_WIDTH ,
+            x: 897 + BLOCK_WIDTH,
             initialX: 897 + BLOCK_WIDTH,
             y: 261,
             isFinish: true,
@@ -303,34 +303,36 @@ export const Level2 = () => {
     };
 
     const nextLevelItem = {
-            id: 'clothes',
-            pic: clothesSrc,
-            x: 1029,
-            initialX: 1029,
-            y: 550,
-            width: 24,
-            height: 57,
+        id: 'clothes',
+        pic: clothesSrc,
+        x: 1029,
+        initialX: 1029,
+        y: 550,
+        width: 24,
+        height: 57,
     };
 
     const handleDone = () => {
         setIsModal(true);
-    }
+    };
 
     const handleNext = () => {
         next();
-    }
+    };
 
-    return <>
-        <Game
-            blocks={blocks}
-            items={items}
-            isPicsLoaded={isLoaded}
-            personPics={personsPics}
-            nextLevelItem={nextLevelItem}
-            onDone={handleDone}
-            onNext={handleNext}
-            gameWidth={1022 + BLOCK_WIDTH}
-        />
-        {isModal && <DoneLevelModal onClose={() => setIsModal(false)} />}
-    </>
-}
+    return (
+        <>
+            <Game
+                blocks={blocks}
+                items={items}
+                isPicsLoaded={isLoaded}
+                personPics={personsPics}
+                nextLevelItem={nextLevelItem}
+                onDone={handleDone}
+                onNext={handleNext}
+                gameWidth={1022 + BLOCK_WIDTH}
+            />
+            {isModal && <DoneLevelModal onClose={() => setIsModal(false)}/>}
+        </>
+    );
+};

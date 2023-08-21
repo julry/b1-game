@@ -28,13 +28,13 @@ const ModalStyled = styled(FlexWrapper)`
   text-align: center;
   padding: 50px 30px;
   white-space: pre-line;
-  
+
   @media screen and (max-width: 320px) {
     width: 288px;
   }
-  
+
   &::before {
-    content:"";
+    content: "";
     position: absolute;
     inset: 0;
     z-index: -2;
@@ -42,8 +42,9 @@ const ModalStyled = styled(FlexWrapper)`
     background: url(${({$type}) => $type === 'primary' ? modalBorder : modalBorderSecondary}) 0 0;
     background-size: auto;
   }
+
   &::after {
-    content:"";
+    content: "";
     z-index: -1;
     position: absolute;
     top: 16px;
@@ -59,8 +60,8 @@ const ButtonStyled = styled(Button)`
   bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  
-  @media screen and (max-width: 320px){
+
+  @media screen and (max-width: 320px) {
     bottom: -7px;
   }
 `;
@@ -103,5 +104,5 @@ export const Modal = ({className, children, icon, btnText, btnType, onClick, typ
                 <StyledBlock style={{bottom: '30px', right: '14px'}} $type={type}/>
             </ModalStyled>
         </ModalWrapper>
-    )
-}
+    );
+};

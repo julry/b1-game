@@ -15,21 +15,21 @@ const Wrapper = styled.div`
 `;
 
 const TextStyled = styled(Text)`
-    margin-top: min(10px, 2.6vw);
+  margin-top: min(10px, 2.6vw);
 `;
 
 const ButtonStyled = styled(Button)`
   margin: min(10px, 2.6vw) auto 0;
   max-width: 214px;
-  
-  &:nth-of-type(2){
+
+  &:nth-of-type(2) {
     max-width: 240px;
   }
 `;
 
 const ModalStyled = styled(InfoModal)`
-    min-height: 567px;
-  
+  min-height: 567px;
+
   @media screen and (max-width: 320px) {
     min-height: 518px;
   }
@@ -69,7 +69,7 @@ export const Screen4 = () => {
     return (
         <>
             <Wrapper $isModal={isModal}>
-                <Level2 />
+                <Level2/>
             </Wrapper>
             {isModal && (
                 <ModalStyled
@@ -92,6 +92,5 @@ export const Screen4 = () => {
                 </ModalStyled>
             )}
         </>
-    )
-
-}
+    );
+};

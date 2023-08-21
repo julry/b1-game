@@ -9,7 +9,7 @@ export const Text = styled.p`
 `;
 
 export const BoldText = styled(Text)`
-    font-weight: 700;
+  font-weight: 700;
 `;
 
 export const TextSmall = styled.p`

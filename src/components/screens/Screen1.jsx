@@ -8,7 +8,8 @@ export const Screen1 = () => {
 
     const handleNext = () => {
         setTimeout(next, 100);
-    }
+    };
+
     return (
         <BackgroundScreen isLogo>
             <Modal btnText={'Давайте!'} btnType={'primary'} onClick={handleNext}>
@@ -16,9 +17,9 @@ export const Screen1 = () => {
                 <br/>
                 <BoldText>Раскроем секрет:</BoldText>
                 <Text>на пути к карьерным вершинам важны две вещи:
-                    поддержка коллег  и возможности для роста.
+                    поддержка коллег и возможности для роста.
                     {'\n'}В Б1 есть и то, и другое. Проверим в игре?</Text>
             </Modal>
         </BackgroundScreen>
-    )
-}
+    );
+};

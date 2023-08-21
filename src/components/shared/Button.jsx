@@ -26,7 +26,7 @@ const TYPE_TO_GRADIENT = {
     secondary: 'linear-gradient(180deg, #FFB14B 0%, #FFB14B 50%, #B87217 51%, #B87217 100%)',
     primaryOutlined: 'linear-gradient(180deg, #43BC4B 0%, #43BC4B 50%, #397834 51%, #397834 100%)',
     secondaryOutlined: 'linear-gradient(180deg, #FFB14B 0%, #FFB14B 50%, #875310 51%, #875310 100%)',
-}
+};
 
 const TYPE_TO_MIN_WIDTH = {
     primary: '130px',
@@ -47,20 +47,17 @@ const ButtonStyled = styled.button`
   border: 4px solid;
   min-width: ${({$type}) => TYPE_TO_MIN_WIDTH[$type]};
   border-image-slice: 1;
-  border-image-source:${({$type}) => TYPE_TO_GRADIENT[$type]};
+  border-image-source: ${({$type}) => TYPE_TO_GRADIENT[$type]};
   transition: background-color 0.3s;
-  // &:hover {
-  //   background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};
-  // }
 
   &:active {
     background: ${({$type}) => TYPE_TO_HOVER_BG[$type]};
   }
-  
+
   @media screen and (max-width: 320px) {
     height: 30px;
     font-size: 14px;
   }
 `;
 
-export const Button = (props) => <ButtonStyled $type={props.type} {...props} />
+export const Button = (props) => <ButtonStyled $type={props.type} {...props} />;

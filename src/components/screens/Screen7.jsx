@@ -9,11 +9,11 @@ import { useProgress } from '../../hooks/useProgress';
 const ButtonStyled = styled(Button)`
   margin: 16px auto 20px;
   max-width: 194px;
-  
+
   &:disabled {
     opacity: 0.6;
   }
-  
+
   &:nth-of-type(2) {
     margin-top: 20px;
   }
@@ -38,7 +38,7 @@ const InputStyled = styled.input`
   max-width: 250px;
   margin: min(3.733vw, 20px) auto ${({$isCorrect}) => $isCorrect ? 'min(2.933vw, 11px)' : 0};
   outline: none;
-  border: 1px solid ${({$isCorrect, value}) => !!value ? $isCorrect ? '#444042' : '#ff2d01' : '#B1B1B1' };
+  border: 1px solid ${({$isCorrect, value}) => !!value ? $isCorrect ? '#444042' : '#ff2d01' : '#B1B1B1'};
   background: #FFFFFF;
   border-radius: 5px;
   width: 100%;
@@ -47,11 +47,11 @@ const InputStyled = styled.input`
   transition: border 300ms;
   color: ${({$isCorrect}) => $isCorrect ? '#444042' : '#ff2d01'};
   height: 32px;
-  
+
   &::placeholder {
     color: #B1B1B1;
   }
-  
+
   &:active {
     border-color: #444042;
   }
@@ -73,7 +73,7 @@ const RadioButtonLabel = styled.label`
   & ${InputRadioButton}:checked + ${RadioIconStyled} {
     border-color: #444042;
   }
-  
+
   & ${InputRadioButton}:checked + ${RadioIconStyled}:after {
     content: '';
     position: absolute;
@@ -108,7 +108,7 @@ const ErrorText = styled.p`
 `;
 
 const Link = styled.a`
-    color: inherit;
+  color: inherit;
 `;
 
 const ModalStyled = styled(Modal)`
@@ -124,7 +124,7 @@ export const Screen7 = () => {
     const [isAgreed, setIsAgreed] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [isCorrect, setIsCorrect] = useState(true);
-    const { next } = useProgress();
+    const {next} = useProgress();
 
     const emailRegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const sendData = () => {
@@ -160,7 +160,7 @@ export const Screen7 = () => {
 
     const handleChange = (e) => {
         setIsCorrect(true);
-        setEmail(e.target.value)
+        setEmail(e.target.value);
     };
 
     return (
@@ -206,5 +206,5 @@ export const Screen7 = () => {
                 </ButtonStyled>
             </ModalStyled>
         </BackgroundScreen>
-    )
-}
+    );
+};

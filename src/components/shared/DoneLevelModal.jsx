@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Modal } from './Modal';
 import { BoldText, Text } from './texts';
 
-const ModalStyled  = styled(Modal)`
-    min-height: 227px;
+const ModalStyled = styled(Modal)`
+  min-height: 227px;
 `;
 
 export const DoneLevelModal = ({onClose, isLast}) => (
@@ -13,7 +13,8 @@ export const DoneLevelModal = ({onClose, isLast}) => (
         </BoldText>
         <br/>
         <Text>
-            Теперь тебе нужно встать на ладонь, чтобы {isLast ? 'продолжить свой карьерный рост в Б1!' : 'перейти на новую карьерную ступень.'}
+            Теперь тебе нужно встать на ладонь,
+            чтобы {isLast ? 'продолжить свой карьерный рост в Б1!' : 'перейти на новую карьерную ступень.'}
         </Text>
     </ModalStyled>
-)
+);
