@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import person from '../../assets/images/commonPerson3.svg';
 import dialog from '../../assets/images/dialog.svg';
-import { Text, BoldText } from '../shared/texts';
+import { BoldText } from '../shared/texts';
 import { Button } from '../shared/Button';
 
 

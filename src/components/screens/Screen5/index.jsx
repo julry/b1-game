@@ -18,7 +18,6 @@ const ModalStyled = styled(InfoModal)`
   }
 `;
 
-
 export const Screen5 = () => {
     const [isModal, setIsModal] = useState(true);
 

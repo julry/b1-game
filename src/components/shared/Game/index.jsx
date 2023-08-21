@@ -98,6 +98,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const $canvas = useRef();
     const $ctx = useRef();
     const $wrapper = useRef();
+    const $isMounted = useRef();
     const $isAnimated = useRef(false);
 
     const $person = useRef({
@@ -224,6 +225,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     }, []);
 
     const animate = () => {
+        if (!$isMounted.current) return;
         if (!$firstItems.current.length && !$secondItems.current.length && !$thirdItems.current.length && !$isDone.current) {
             $isDone.current = true;
             onDone();
@@ -286,6 +288,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     };
 
     useEffect(() => {
+        $isMounted.current = true;
         const isEverythingLoaded = loaded === 'loaded' && handLoaded === 'loaded'
             && roadLoaded === 'loaded' && isPicsLoaded && logoLoaded === 'loaded'
             && bgLoaded === 'loaded';
@@ -332,6 +335,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             }
         }
         return () => {
+            $isMounted.current = false;
             if (isDesktop) {
                 window.removeEventListener('keydown', handleMoveDesktop);
                 window.removeEventListener('keyup', handleStopMoveDesktop);
