@@ -27,8 +27,8 @@ const Person  = styled.div`
 const DialogWrapper = styled.div`
   position: absolute;
   white-space: pre-line;
-  width: 308px;
-  height: 247px;
+  width: 318px;
+  height: 257px;
   bottom: min(340px, 90.6vw);
   left: 25px;
   background: url(${dialog}) no-repeat 0 0 /cover;
@@ -40,14 +40,14 @@ const DialogWrapper = styled.div`
   
   @media screen and (max-width: 320px) {
     padding: 20px 35px;
-    width: 265px;
-    height: 212px;
+    width: 275px;
+    height: 222px;
   }
 
   @media screen and (max-width: 300px) {
     padding: 15px 18px;
-    width: 250px;
-    height: 200px;
+    width: 260px;
+    height: 210px;
   }
   
 `;
@@ -70,7 +70,7 @@ const Title = styled(BoldText)`
 `;
 
 const ButtonStyled = styled(Button)`
-  margin-top: min(11px, 2.933vw);
+  margin-top: min(9px, 2.733vw);
 `;
 
 export const Screen8 = () => {
