@@ -20,7 +20,6 @@ import {
     PERSON_HEIGHT,
     PERSON_WIDTH
 } from './constants';
-import { isDesktop } from 'react-device-detect';
 import { Text } from '../texts';
 
 const Wrapper = styled.div`
@@ -48,7 +47,7 @@ const ButtonsBlock = styled.div`
   outline: none;
   
   @media screen and (min-width: 450px) {
-    width: ${isDesktop ? '400px' : '200px'};
+    width: 400px;
   }
 `;
 
@@ -98,8 +97,9 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const $canvas = useRef();
     const $ctx = useRef();
     const $wrapper = useRef();
-    const $isMounted = useRef();
+    const $isMounted = useRef(false);
     const $isAnimated = useRef(false);
+    const $isTouchDevice = useRef(false);
 
     const $person = useRef({
         position: {
@@ -289,11 +289,14 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
     useEffect(() => {
         $isMounted.current = true;
+        $isTouchDevice.current = ('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0);
         const isEverythingLoaded = loaded === 'loaded' && handLoaded === 'loaded'
             && roadLoaded === 'loaded' && isPicsLoaded && logoLoaded === 'loaded'
             && bgLoaded === 'loaded';
         if ($canvas.current && isEverythingLoaded) {
-            if (isDesktop) {
+            if (!$isTouchDevice.current) {
                 window.addEventListener('keydown', handleMoveDesktop);
                 window.addEventListener('keyup', handleStopMoveDesktop);
             }
@@ -336,7 +339,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
         }
         return () => {
             $isMounted.current = false;
-            if (isDesktop) {
+            if (!$isTouchDevice.current) {
                 window.removeEventListener('keydown', handleMoveDesktop);
                 window.removeEventListener('keyup', handleStopMoveDesktop);
             }
@@ -566,7 +569,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             <canvas ref={$canvas} onClick={handleCanvasClick}/>
             <ButtonsBlock>
                 {
-                    isDesktop ? (
+                    !$isTouchDevice.current ? (
                         <Text>
                             {isFirst ? 'Управляй персонажем с помощью клавиатуры компьютера' : ''}
                         </Text>
