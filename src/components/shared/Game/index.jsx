@@ -373,7 +373,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
             if (velocity.y === 0) src = personPics.left;
             else src = personPics.leftUp;
             persWidth *= 2;
-        } else if (velocity.y !== 0 && !$isFinishing.current) {
+        } else if ($keysPressed.current.up && !$isFinishing.current) {
             src = personPics.up;
         }
         $ctx.current.globalCompositeOperation = 'source-over';
@@ -449,6 +449,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
                 $person.current.velocity.y = 0;
                 $keysPressed.current.leftUp = false;
                 $keysPressed.current.rightUp = false;
+                $keysPressed.current.up = false;
                 if (block.isFinish && $isDone.current) {
                     $isFinishing.current = true;
                 }
@@ -488,8 +489,9 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
 
         if (
             positionY + height + velocity?.y >= bottomBorder &&
-            ($keysPressed.current.leftUp || $keysPressed.current.rightUp)
+            ($keysPressed.current.leftUp || $keysPressed.current.rightUp || $keysPressed.current.up)
         ) {
+            $keysPressed.current.up = false;
             $keysPressed.current.leftUp = false;
             $keysPressed.current.rightUp = false;
         }
@@ -539,6 +541,7 @@ export const Game = ({blocks, items, personPics, isPicsLoaded, nextLevelItem, on
     const handleUp = () => {
         if (!!$person.current.velocity.y || $isFinishing.current) return;
         const {velocity} = $person.current;
+        $keysPressed.current.up = true;
         $person.current.velocity.y = velocity?.y - 7;
     };
 
