@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.edcbd049.css",
-    "main.js": "./static/js/main.6adac194.js",
+    "main.js": "./static/js/main.d64c8e7b.js",
     "static/media/modalBorder.svg": "./static/media/modalBorder.6c7e28d6cb341ab86e3ddd6429ea2dab.svg",
     "static/media/modalBorderSecondary.svg": "./static/media/modalBorderSecondary.df9670ee1b48e372bfeeac0519ec7708.svg",
     "static/media/level3Clothes.svg": "./static/media/level3Clothes.15056dec61c61b76fdc5a32ad00974b2.svg",
@@ -55,10 +55,10 @@
     "static/media/rect.svg": "./static/media/rect.e99ef99ba97e3d2e21d77c6b75f2563c.svg",
     "static/media/rectSecondary.svg": "./static/media/rectSecondary.f11437f479c843a0e38212a460232637.svg",
     "main.edcbd049.css.map": "./static/css/main.edcbd049.css.map",
-    "main.6adac194.js.map": "./static/js/main.6adac194.js.map"
+    "main.d64c8e7b.js.map": "./static/js/main.d64c8e7b.js.map"
   },
   "entrypoints": [
     "static/css/main.edcbd049.css",
-    "static/js/main.6adac194.js"
+    "static/js/main.d64c8e7b.js"
   ]
 }
