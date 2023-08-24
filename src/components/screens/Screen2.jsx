@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useProgress } from '../../hooks/useProgress';
 import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
-import { useProgress } from '../../hooks/useProgress';
 
 const ModalStyled = styled(Modal)`
   min-height: ${({$isDisc}) => $isDisc ? 340 : 308}px;

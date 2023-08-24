@@ -4,6 +4,7 @@ import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
 import { useProgress } from '../../hooks/useProgress';
+import { reachMetrikaGoal } from '../../utils/reachMetrikaGoal';
 
 const Cup = styled.div`
   width: min(65px, 17.3vw);
@@ -24,6 +25,7 @@ export const Screen6 = () => {
     const { next } = useProgress();
 
     const handleNext = () => {
+        reachMetrikaGoal('lvl3finish');
         setTimeout(next, 300);
     }
 

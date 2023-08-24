@@ -1,10 +1,12 @@
+import styled from 'styled-components';
+import { useState } from 'react';
+import { useProgress } from '../../hooks/useProgress';
+import { reachMetrikaGoal } from '../../utils/reachMetrikaGoal';
+import { openIntership } from '../../utils/openIntership';
 import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text } from '../shared/texts';
 import { Button } from '../shared/Button';
-import styled from 'styled-components';
-import { useState } from 'react';
-import { useProgress } from '../../hooks/useProgress';
 
 const ButtonStyled = styled(Button)`
   margin: 16px auto 20px;
@@ -129,6 +131,7 @@ export const Screen7 = () => {
     const emailRegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     const sendData = () => {
         setIsSending(true);
+        reachMetrikaGoal('email');
 
         const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSdaVr-4R_moI4F13aqbKAeAEVu7Sp0_Orh0ai414es9l3R8xA/formResponse';
         const EMAIL_ID = 'entry.1077786449';
@@ -163,13 +166,18 @@ export const Screen7 = () => {
         setEmail(e.target.value);
     };
 
+    const handleInterClick = () => {
+        reachMetrikaGoal('lvl3_intership');
+        openIntership();
+    }
+
     return (
         <BackgroundScreen>
             <ModalStyled btnType={'secondary'} type={'secondary'}>
                 <Text>
                     Не откладывай карьеру {'\n'}на потом — давай к нам {'\n'}уже сейчас!
                 </Text>
-                <ButtonStyled type={'secondaryOutlined'}>На стажировку</ButtonStyled>
+                <ButtonStyled type={'secondaryOutlined'} onClick={handleInterClick}>На стажировку</ButtonStyled>
                 <Text>
                     {
                         'И принимай участие\nв розыгрыше — оставляй свои контакты, ' +

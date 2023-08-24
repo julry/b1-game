@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { reachMetrikaGoal } from '../../../utils/reachMetrikaGoal';
+import { InfoModal } from '../../shared/InfoModal';
 import calc from './images/calc.svg';
 import glasses from './images/glasses.svg';
 import table from './images/table.svg';
-import { InfoModal } from '../../shared/InfoModal';
 import { Level1 } from './Level1';
 
 const Wrapper = styled.div`
@@ -48,6 +49,7 @@ export const Screen3 = () => {
     ];
 
     const handleStart = () => {
+        reachMetrikaGoal('control');
         setIsModal(false);
     };
 

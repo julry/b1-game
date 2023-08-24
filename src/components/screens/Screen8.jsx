@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { BackgroundScreen } from '../shared/BackgroundScreen';
 import person from '../../assets/images/commonPerson3.svg';
 import dialog from '../../assets/images/dialog.svg';
+import { reachMetrikaGoal } from '../../utils/reachMetrikaGoal';
+import { openIntership } from '../../utils/openIntership';
+import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { BoldText } from '../shared/texts';
 import { Button } from '../shared/Button';
 
@@ -72,6 +74,11 @@ const ButtonStyled = styled(Button)`
 `;
 
 export const Screen8 = () => {
+    const handleInterClick = () => {
+        reachMetrikaGoal('email_intership');
+        openIntership();
+    }
+
     return (
         <BackgroundScreen isLogo>
             <PersonWrapper>
@@ -80,7 +87,7 @@ export const Screen8 = () => {
                         Ты участвуешь{'\n'}в конкурсе!
                     </Title>
                     <TextStyled>Если ты победишь, то мы отправим тебе всю информацию на указанную почту. Будь начеку!</TextStyled>
-                    <ButtonStyled type={'primaryOutlined'}>На стажировку</ButtonStyled>
+                    <ButtonStyled type={'primaryOutlined'} onClick={handleInterClick}>На стажировку</ButtonStyled>
                 </DialogWrapper>
                 <Person/>
             </PersonWrapper>

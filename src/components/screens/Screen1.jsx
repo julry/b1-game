@@ -2,11 +2,13 @@ import { Modal } from '../shared/Modal';
 import { BackgroundScreen } from '../shared/BackgroundScreen';
 import { Text, BoldText } from '../shared/texts';
 import { useProgress } from '../../hooks/useProgress';
+import { reachMetrikaGoal } from '../../utils/reachMetrikaGoal';
 
 export const Screen1 = () => {
     const {next} = useProgress();
 
     const handleNext = () => {
+        reachMetrikaGoal('start');
         setTimeout(next, 100);
     };
 

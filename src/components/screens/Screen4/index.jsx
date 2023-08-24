@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { reachMetrikaGoal } from '../../../utils/reachMetrikaGoal';
+import { openIntership } from '../../../utils/openIntership';
+import { Text } from '../../shared/texts';
+import { Button } from '../../shared/Button';
+import { InfoModal } from '../../shared/InfoModal';
 import pres from './images/pres.svg';
 import balance from './images/balance.svg';
 import folder from './images/folder.svg';
-import { InfoModal } from '../../shared/InfoModal';
 import { Level2 } from './Level2';
-import { Text } from '../../shared/texts';
-import { Button } from '../../shared/Button';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -63,8 +65,14 @@ export const Screen4 = () => {
     ];
 
     const handleStart = () => {
+        reachMetrikaGoal('lvl1finish');
         setIsModal(false);
     };
+
+    const handleInterClick = () => {
+        reachMetrikaGoal('lvl1_intership');
+        openIntership();
+    }
 
     return (
         <>
@@ -82,7 +90,7 @@ export const Screen4 = () => {
                     <TextStyled>
                         А если хочешь к нам {'\n'}в команду Б1 уже сейчас — откликайся!
                     </TextStyled>
-                    <ButtonStyled type={'primaryOutlined'}>На стажировку</ButtonStyled>
+                    <ButtonStyled type={'primaryOutlined'} onClick={handleInterClick}>На стажировку</ButtonStyled>
                     <ButtonStyled
                         type={'primary'}
                         onClick={handleStart}

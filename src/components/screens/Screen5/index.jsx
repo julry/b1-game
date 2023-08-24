@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { strategy, stone, clients} from './images';
+import { reachMetrikaGoal } from '../../../utils/reachMetrikaGoal';
 import { InfoModal } from '../../shared/InfoModal';
 import { Level3 } from './Level3';
+import { strategy, stone, clients} from './images';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -46,6 +47,7 @@ export const Screen5 = () => {
     ];
 
     const handleStart = () => {
+        reachMetrikaGoal('lvl2finish');
         setIsModal(false);
     };
 
