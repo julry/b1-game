@@ -71,7 +71,7 @@ export const Screen4 = () => {
 
     const handleInterClick = () => {
         reachMetrikaGoal('lvl1_intership');
-        openIntership();
+        setTimeout(() => openIntership(), 0);
     }
 
     return (

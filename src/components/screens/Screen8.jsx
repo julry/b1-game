@@ -76,7 +76,7 @@ const ButtonStyled = styled(Button)`
 export const Screen8 = () => {
     const handleInterClick = () => {
         reachMetrikaGoal('email_intership');
-        openIntership();
+        setTimeout(() => openIntership(), 0);
     }
 
     return (

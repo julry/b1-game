@@ -168,7 +168,7 @@ export const Screen7 = () => {
 
     const handleInterClick = () => {
         reachMetrikaGoal('lvl3_intership');
-        openIntership();
+        setTimeout(() => openIntership(), 0);
     }
 
     return (
